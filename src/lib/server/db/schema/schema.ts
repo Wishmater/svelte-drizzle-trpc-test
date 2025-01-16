@@ -1,6 +1,7 @@
 import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
 import { sql } from "drizzle-orm";
-import { type Roles, userTypes } from '$lib/common/models/enums';
+import { type Roles, userTypes } from '../../../common/models/enums';
+import { createSelectSchema } from 'drizzle-valibot'; // $lib imports break drizzle-kit :((
 
 
 // Drizzle ORM schema declaration useful links:
@@ -9,7 +10,7 @@ import { type Roles, userTypes } from '$lib/common/models/enums';
 // https://orm.drizzle.team/docs/relations
 
 
-export const user = sqliteTable('user', {
+export const users = sqliteTable('user', {
 	id: integer('id').primaryKey({autoIncrement: true}),
 	username: text('username').unique(),
 	email: text('email').unique(),
@@ -22,3 +23,6 @@ export const user = sqliteTable('user', {
 });
 
 
+// Create Valibot schema from DB declaration:
+// https://orm.drizzle.team/docs/valibot
+export const userSelectSchema = createSelectSchema(users);
