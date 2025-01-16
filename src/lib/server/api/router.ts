@@ -3,7 +3,7 @@ import { initTRPC } from '@trpc/server';
 import { dev } from '$app/environment';
 import * as v from 'valibot';
 import { db } from '$lib/server/db/db';
-import { userSelectSchema } from '$lib/server/db/schema/schema';
+import { UserSelectSchema } from '$lib/server/db/schema/schema';
 
 
 export async function createContext(event: RequestEvent) {
@@ -40,7 +40,7 @@ export const router = t.router({
 
 	users: t.router({
 		all: t.procedure
-			.output((value) => v.parse(v.array(userSelectSchema), value))
+			.output((value) => v.parse(v.array(UserSelectSchema), value))
 			.query(async () => {
 				return db.query.users.findMany();
 			}),

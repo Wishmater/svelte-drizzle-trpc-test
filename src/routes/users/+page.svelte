@@ -3,28 +3,17 @@
 
 	const users = trpc.users.all.createQuery();
 
-	const asdf = $users.data;
-	asdf.;
-
-
 </script>
 
-<p>
-	{#if $users.isPending}
-		Loading...
-	{:else if $users.isError}
-		Error: {$users.error.message}
-	{:else if $users.data}
-		{$users.data}
-		{#each $users.data as user}
-			{user}
-			{user.type}
-		{/each}
+Users endpoint:
+{#if $users.isPending}
+	Loading...
+{:else if $users.isError}
+	Error: {$users.error.message}
+{:else if $users.data}
+	{#each $users.data as user}
+		{user}
+		{user.type}
 		<br>
-		{typeof users}
-		<br>
-		{typeof $users}
-		<br>
-		{typeof $users.data}
-	{/if}
-</p>
+	{/each}
+{/if}
