@@ -1,47 +1,30 @@
 <script lang="ts">
-	import { trpc } from '$lib/client/api/api';
+	import Button from "$lib/client/widgets/button.svelte"
 
-	function generateRandomString(length: number): string {
-		const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-		let result = '';
-		for (let i = 0; i < length; i++) {
-			const randomIndex = Math.floor(Math.random() * characters.length);
-			result += characters.charAt(randomIndex);
-		}
-		return result;
-	}
-	const randomString = generateRandomString(8);
-
-	const hello = trpc.hello.createQuery();
-
-	const greeting = trpc.greeting.createQuery(randomString);
 
 </script>
 
-Hello Endpoint:
-<br>
-{#if $hello.isPending}
-	Loading...
-{:else if $hello.isError}
-	Error: {$hello.error.message}
-{:else if $hello.data}
-	{$hello.data}
-{/if}
+<div class="flex flex-col content-center justify-center items-center ">
 
-<br>
-<br>
+	<div class="h-12"></div>
+	<a href="/users">
+		<Button
+			className="bg-blue-900"
+		>
+			Users
+		</Button>
+	</a>
 
-Greeting Endpoint ({randomString}):
-<br>
-{#if $greeting.isPending}
-	Loading...
-{:else if $greeting.isError}
-	Error: {$greeting.error.message}
-{:else if $greeting.data}
-	{$greeting.data}
-{/if}
+	<div class="h-4"></div>
+	<button data-ripple-light="true" class="rounded-md bg-slate-800 py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2" type="button">
+		Dummy
+	</button>
+	<div class="h-4"></div>
 
-<br>
-<br>
+	<Button
+		className="bg-blue-900"
+	>
+		Component
+	</Button>
 
-<a href="/users">Users</a>
+</div>

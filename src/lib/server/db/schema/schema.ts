@@ -1,6 +1,6 @@
 import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
 import { sql } from "drizzle-orm";
-import { type Roles, userTypes } from '../../../common/models/enums'; // $lib imports break drizzle-kit :((
+import { type Roles, userTypes } from '../../../common/models/enums'; // $lib imports break drizzle-kit :((, maybe prefer to just declare unions here
 import { createSelectSchema } from 'drizzle-valibot';
 import * as v from 'valibot';
 
@@ -17,10 +17,10 @@ export const users = sqliteTable('user', {
 	email: text('email').notNull().unique(),
 	age: integer('age').notNull(),
 	active: integer('active', {mode: 'boolean'}).notNull(),
-	role: integer('role').$type<Roles>().notNull(),
+	role: integer('role').$type<Roles>().notNull(), // this doesn't really work because it is exported as a number in valibot types, prefer doing these as string unions
 	type: text('type', {enum: userTypes}).notNull(),
-	selectedDate: integer('selectedDate', {mode: 'timestamp'}).notNull(),
-	createdAt: integer('createdAt', {mode: 'timestamp_ms'}).notNull().default(sql`(CURRENT_TIMESTAMP)`),
+	selectedDate: integer('selectedDate', {mode: 'timestamp'}).notNull().$type<Date>(),
+	createdAt: integer('createdAt', {mode: 'timestamp_ms'}).notNull().$type<Date>().default(sql`(select CURRENT_TIMESTAMP)`),
 });
 
 
