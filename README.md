@@ -34,4 +34,9 @@ Typescript = good, also native to svelteKit.
 ### Vite (mandatory)
 Used by svelteKit to build project.
 
+### Eslint + Prettier (optional)
+In the long run, it is better to standardize code. Even if the standard is bad, it's better than no standard. Make sure to enable eslint + prettier formatter on save on your IDE.
+
+### Pre
+
 
