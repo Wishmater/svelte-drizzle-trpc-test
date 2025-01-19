@@ -100,7 +100,11 @@ The UI can be built with html / tailwind alone, but it's often useful to have hi
 #### Material-Tailwind
 Headless tailwind components. The only sane way to use it is to create our own Svelte components from it and use them.
 
-#### SkeletonUI
+#### [ShadCN](https://www.shadcn-svelte.com/)
+
+#### [Flowbite](https://flowbite-svelte.com/)
+
+#### SkeletonUI (NO (dice Fide))
 
 #### DaisyUI (NO)
 Trying to do high complexity components is even discouraged in the tailwind documentation itself.

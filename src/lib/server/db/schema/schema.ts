@@ -26,6 +26,8 @@ export const users = sqliteTable('user', {
 
 // Create Valibot schema from DB declaration:
 // https://orm.drizzle.team/docs/valibot
-export const UserSelectSchema = createSelectSchema(users);
+export const UserSelectSchema = createSelectSchema(users, {
+	email: (e) => v.pipe(e, v.email()),
+});
 
 export type User = v.InferOutput<typeof UserSelectSchema>;
