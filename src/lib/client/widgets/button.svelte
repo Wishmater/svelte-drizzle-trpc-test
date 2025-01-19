@@ -33,15 +33,15 @@
 {#if buttonType === 'raised'}
 	<button
 		{onclick}
-		onmouseup={createRipple}
+		onmousedown={createRipple}
 		{...rest}
 		class="rounded-lg bg-gray-900 px-6 py-3 text-center
 					align-middle font-sans text-xs
 					font-bold uppercase text-white shadow-md shadow-gray-900/60
-					transition-all duration-200
-					hover:shadow-lg hover:shadow-gray-900/60
+					transition-all duration-300
+					hover:scale-[1.02] hover:shadow-lg hover:shadow-gray-900/60
 					focus:opacity-[0.85] focus:shadow-md focus:shadow-gray-900/60
-					active:opacity-[0.85] active:shadow-sm active:shadow-gray-900/60
+					active:scale-[0.98] active:opacity-[0.85] active:shadow-sm active:shadow-gray-900/60
 					disabled:pointer-events-none disabled:opacity-50 disabled:shadow-sm
 					{className}"
 	>
@@ -50,12 +50,13 @@
 {:else if buttonType === 'inkwell'}
 	<div
 		{onclick}
-		onmouseup={createRipple}
+		onmousedown={createRipple}
 		role="button"
 		tabindex="0"
 		{...rest}
-		class="transition-all duration-200
-					hover:bg-slate-100 focus:bg-slate-100 active:bg-slate-100
+		class="transition-all duration-300
+					hover:bg-slate-100 focus:bg-slate-100
+					active:bg-slate-100
 					disabled:pointer-events-none
 					disabled:opacity-50 disabled:shadow-sm has-[:hover]:bg-transparent
 					{className}"
@@ -65,14 +66,15 @@
 {:else}
 	<button
 		{onclick}
-		onmouseup={createRipple}
+		onmousedown={createRipple}
 		{...rest}
 		class="	rounded-lg bg-transparent px-6 py-3 text-center
 					align-middle
 					font-sans text-xs font-bold uppercase text-slate-700
 					{buttonType === 'outlined' && 'border border-slate-300'}
-					transition-all duration-200
-					hover:bg-slate-200 focus:bg-slate-200 active:bg-slate-200
+					transition-all duration-300
+					hover:scale-[1.02] hover:bg-slate-200 focus:bg-slate-200
+					active:scale-[0.98] active:bg-slate-200
 					disabled:pointer-events-none disabled:opacity-50 disabled:shadow-sm
 					{className}"
 	>
