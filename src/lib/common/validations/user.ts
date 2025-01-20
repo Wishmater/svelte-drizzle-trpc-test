@@ -34,7 +34,7 @@ export const UserInsertSchema = v.omit(UserSchema, [
 
 export const UserUpdateSchema = v.omit(UserSchema, [
 	'id',
+	'createdAt',
 	'email',
-	'password',
-	'createdAt'
+	'password'
 ]) satisfies v.GenericSchema<UserUpdate>;

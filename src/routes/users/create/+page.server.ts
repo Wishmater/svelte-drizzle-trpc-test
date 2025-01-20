@@ -2,7 +2,10 @@ import type { PageServerLoad, Actions } from './$types';
 import { message, superValidate } from 'sveltekit-superforms';
 import { UserInsertSchema } from '$lib/common/validations/user';
 import { valibot } from 'sveltekit-superforms/adapters';
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
+import { db } from '$lib/server/db/db';
+import { users } from '$lib/server/db/schema/schema';
+import { route } from '$lib/ROUTES';
 
 export const load = (async (event) => {
 	const form = await superValidate(valibot(UserInsertSchema));
@@ -13,18 +16,15 @@ export const load = (async (event) => {
 
 export const actions = {
 	default: async ({ request }) => {
-		console.log('PASS');
 		const form = await superValidate(request, valibot(UserInsertSchema));
-		console.log(form);
 
 		if (!form.valid) {
-			// Again, return { form } and things will just work.
 			return fail(422, { form });
 		}
 
-		// TODO: Do something with the validated form.data
+		db.insert(users).values(form.data);
 
-		// Display a success status message
-		return message(form, 'User created successfully');
+		// TODO 1 send success message
+		return redirect(303, route('/users'));
 	}
 } satisfies Actions;

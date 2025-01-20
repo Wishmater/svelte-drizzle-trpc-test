@@ -10,6 +10,6 @@ export const load = (async (event) => {
 }) satisfies PageServerLoad;
 
 async function getUsers(): Promise<User[]> {
-	await new Promise((resolve) => setTimeout(resolve, 3000));
+	await new Promise((resolve) => setTimeout(resolve, 1000));
 	return db.query.users.findMany();
 }

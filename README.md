@@ -30,10 +30,13 @@ node build
 ## Language / Linters
 
 ### Typescript (mandatory)
-Typescript = good, also native to svelteKit.
+Typescript = good, also native to SvelteKit.
 
 ### Vite (mandatory)
 Used by svelteKit to build project.
+
+### [Rollup-Plugin-Visualizer](https://github.com/btd/rollup-plugin-visualizer) (mandatory)
+Great plugin to inspect the bundle size of libraries.
 
 ### Eslint + Prettier (optional)
 In the long run, it is better to standardize code. Even if the standard is bad, it's better than no standard. Make sure to enable eslint + prettier formatter on save on your IDE. Check example project for ts and svelte plugins.
@@ -70,6 +73,7 @@ npx drizzle-kit studio
 
 ### [Valibot](https://valibot.dev/) (mandatory)
 Generally better than Zod: more lightweight and more customizable. The only pain point is the i18n and generally getting readable errors to show to the user, but there are some clever ways to make it easier (check _valibot.ts in example).
+<br>Useful link: [generate valibot schema from TS type](https://sinclairzx81.github.io/typebox-workbench/)
 
 ### [SveltKit load() APIs](https://svelte.dev/docs/kit/load) (optional)
 For simpler apps, ideally we can just use SvelteKit's load() and actions APIs. 

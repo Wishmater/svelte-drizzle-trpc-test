@@ -5,32 +5,28 @@
 	import { dev } from '$app/environment';
 	import { valibotClient } from 'sveltekit-superforms/adapters';
 	import { UserInsertSchema } from '$lib/common/validations/user';
-	// import { UserSchema } from '$lib/server/db/schema/schema';
+	import UsernameInput from '$lib/client/forms/user/UsernameInput.svelte';
+	import AgeInput from '$lib/client/forms/user/AgeInput.svelte';
+	import TypeInput from '$lib/client/forms/user/TypeInput.svelte';
 
 	interface Props {
 		data: PageData;
 	}
 	let { data } = $props();
 
-	const { form, errors, constraints, message, enhance } = superForm(data.form, {
+	const { form, errors, constraints, enhance } = superForm(data.form, {
 		validators: valibotClient(UserInsertSchema)
 		// customValidity: true
 	});
 </script>
 
-{#if $message}<h3 class="pt-4 text-center text-2xl text-green-600">{$message}</h3>{/if}
-
 <div class="h-16"></div>
 <form method="POST" use:enhance class="flex flex-col items-center">
-	<label for="username" class="pt-4">Username</label>
-	<input
-		type="text"
-		name="username"
-		aria-invalid={$errors.username ? 'true' : undefined}
+	<UsernameInput
 		bind:value={$form.username}
-		{...$constraints.username}
+		errors={$errors.username}
+		constraints={$constraints.username}
 	/>
-	{#if $errors.username}<span class="text-red-500">{$errors.username}</span>{/if}
 
 	<label for="email" class="pt-4">Email</label>
 	<input
@@ -52,25 +48,9 @@
 	/>
 	{#if $errors.password}<span class="text-red-500">{$errors.password}</span>{/if}
 
-	<label for="age" class="pt-4">Age</label>
-	<input
-		type="number"
-		name="age"
-		aria-invalid={$errors.age ? 'true' : undefined}
-		bind:value={$form.age}
-		{...$constraints.age}
-	/>
-	{#if $errors.age}<span class="text-red-500">{$errors.age}</span>{/if}
+	<AgeInput bind:value={$form.age} errors={$errors.age} constraints={$constraints.age} />
 
-	<label for="type" class="pt-4">Type</label>
-	<input
-		type="text"
-		name="type"
-		aria-invalid={$errors.type ? 'true' : undefined}
-		bind:value={$form.type}
-		{...$constraints.type}
-	/>
-	{#if $errors.type}<span class="text-red-500">{$errors.type}</span>{/if}
+	<TypeInput bind:value={$form.type} errors={$errors.type} constraints={$constraints.type} />
 
 	<Button class="mt-8">Create User</Button>
 </form>
