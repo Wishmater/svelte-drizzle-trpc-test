@@ -3,7 +3,10 @@ import { Logger, LokiFormat, LokiSender, Pipeline, Scope } from 'loggerjs';
 import { building, dev } from '$app/environment';
 
 const minLevel = 'trace'; // TODO 1 move to .env
-const scopes: Scope[] = [{ type: 'ServerResponse', level: 'trace' }];
+const scopes: Scope[] = [
+	{ type: 'ServerResponse', level: 'trace' },
+	{ type: 'ServerAPIResponse', level: 'trace' }
+];
 
 // called in src/hooks.client.ts before doing anything else
 export function initLogger() {

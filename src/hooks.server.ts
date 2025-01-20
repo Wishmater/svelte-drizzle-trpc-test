@@ -17,10 +17,12 @@ const loggerMiddleware: Handle = async ({ event, resolve }) => {
 		const path = event.request.url;
 		const elapsed = performance.now() - event.locals.startTimer;
 		const responseSize = parseInt(response?.headers.get('content-length') ?? '0');
+		const isApi = event.request.method != 'GET';
+		// TODO 1 API validation errors are being logged as 200, can't figure out an easy way to distinguish them
 		logger.log({
 			level: 'info',
-			message: `RESPONSE ${status} ${method} ${path}`,
-			type: 'ServerResponse',
+			message: `${isApi ? 'API ' : ''}RESPONSE ${status} ${method} ${path}`,
+			type: isApi ? 'ServerResponse' : 'ServerAPIResponse',
 			extra: {
 				method: method,
 				status: status,
@@ -45,11 +47,12 @@ export const handleError: HandleServerError = async ({ error, event, status, mes
 	const responseSize = parseInt(
 		response?.headers.get('content-length') ?? message.length.toString()
 	);
+	const isApi = event.request.method != 'GET';
 	logger.log({
 		level: status >= 500 ? 'error' : 'warn',
-		message: `RESPONSE ${status} ${method} ${path} ${message}`,
+		message: `${isApi ? 'API ' : ''}RESPONSE ${status} ${method} ${path} ${message}`,
 		error: error,
-		type: 'ServerResponse',
+		type: isApi ? 'ServerResponse' : 'ServerAPIResponse',
 		extra: {
 			method: method,
 			path: path,

@@ -4,7 +4,10 @@ import { building, dev } from '$app/environment';
 import { createWriteStream, WriteStream } from 'node:fs';
 
 const minLevel = 'trace'; // TODO 1 move to .env
-const scopes: Scope[] = [{ type: 'ServerResponse', level: 'trace' }];
+const scopes: Scope[] = [
+	{ type: 'ServerResponse', level: 'trace' },
+	{ type: 'ServerAPIResponse', level: 'trace' }
+];
 
 // called in src/hooks.server.ts before doing anything else
 export function initLogger() {

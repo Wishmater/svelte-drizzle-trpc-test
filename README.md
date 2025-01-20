@@ -38,7 +38,7 @@ Used by svelteKit to build project.
 ### [Rollup-Plugin-Visualizer](https://github.com/btd/rollup-plugin-visualizer) (mandatory)
 Great plugin to inspect the bundle size of libraries.
 
-### [LoggerJS](https://github.com/FromZeroDev/loggerjs)
+### [LoggerJS](https://github.com/FromZeroDev/loggerjs) (mandatory)
 Check example for how to setup. There needs to be a global variable in common, that everyone uses, but it must be initialized in server/client hooks, so the server code doesn't leak into the client.
 
 ### Eslint + Prettier (optional)
