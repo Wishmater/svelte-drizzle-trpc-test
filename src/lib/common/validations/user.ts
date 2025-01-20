@@ -24,7 +24,6 @@ export const UserInsertSchema = v.omit(UserSchema, [
 ]) satisfies v.GenericSchema<UserInsert>;
 
 const value = v.getDefaults(UserInsertSchema);
-console.log(value);
 
 export const UserUpdateSchema = v.omit(UserSchema, [
 	'id',

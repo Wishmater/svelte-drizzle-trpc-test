@@ -27,7 +27,7 @@ node build
 # Technologies / Tools used
 
 
-## Language / Linters
+## Language / DevTools
 
 ### Typescript (mandatory)
 Typescript = good, also native to SvelteKit.
@@ -37,6 +37,9 @@ Used by svelteKit to build project.
 
 ### [Rollup-Plugin-Visualizer](https://github.com/btd/rollup-plugin-visualizer) (mandatory)
 Great plugin to inspect the bundle size of libraries.
+
+### [LoggerJS](https://github.com/FromZeroDev/loggerjs)
+Check example for how to setup. There needs to be a global variable in common, that everyone uses, but it must be initialized in server/client hooks, so the server code doesn't leak into the client.
 
 ### Eslint + Prettier (optional)
 In the long run, it is better to standardize code. Even if the standard is bad, it's better than no standard. Make sure to enable eslint + prettier formatter on save on your IDE. Check example project for ts and svelte plugins.
@@ -101,27 +104,35 @@ Type inference (its main sale point) is buggy and hard to implement.
 ### [Svelte](https://svelte.dev/docs/svelte/overview) (mandatory)
 Best frontend JS framework by far, and also integrates with SvelteKit, of course.
 
-### [SuperForms](https://superforms.rocks/) (optional)
+### [SuperForms](https://superforms.rocks/) (optional*)
 Mandatory if the app needs complex forms. Helps automate most of the state management and communication of a form, and integrates super nicely with SvelteKit and Valibot (check example).
+<br>Make sure to check out the example and implement all features properly, this includes:
+<br>  Frontend validation with Valibot.
+<br>  Error handling (returning validation errors from backend and showing them in form).
+<br>  Show loading spinner when submitting form.
+<br>  Maintaining form state on refresh with SvelteKit snapshot().
+
 
 ### [Tailwind](https://tailwindcss.com/docs/installation) (mandatory)
 Tailwind = good.
 
-### SvelteHeroIcons (mandatory)
+### [SvelteHeroIcons](https://www.npmjs.com/package/svelte-hero-icons) (mandatory)
+Easily use icons from https://heroicons.com/, without having to copy-paste them.
 
 ### Some higher level library on top of tailwind (optional)
 The UI can be built with html / tailwind alone, but it's often useful to have higher level components, especially since we dont have designers.
-
-#### Material-Tailwind
-Headless tailwind components. The only sane way to use it is to create our own Svelte components from it and use them.
 
 #### [ShadCN](https://www.shadcn-svelte.com/)
 
 #### [Flowbite](https://flowbite-svelte.com/)
 
-#### SkeletonUI (NO (dice Fide))
+#### [SkeletonUI](https://www.skeleton.dev/) (NO (dice Fide))
 
-#### DaisyUI (NO)
+#### [Material-Tailwind](https://www.material-tailwind.com/docs/html/installation) (MEH)
+Headless tailwind components. The only sane way to use it is to create our own Svelte components from it and use them.
+<br>The main issue is that each component requires to import JS (even for things that can be done without JS), some components can be used, but it doesn't really work as a main UI lib as well as chadCN does.
+
+#### [DaisyUI](https://daisyui.com/) (NO)
 Trying to do high complexity components is even discouraged in the tailwind documentation itself.
 Daisy often interferes with vanilla tailwind and makes it so you can't copy/paste tailwind code without it breaking.
 Ideally, we want a library that declares Svelte components, or headless tailwind components to create our own.
@@ -134,7 +145,13 @@ Ideally, we want a library that declares Svelte components, or headless tailwind
 - Add more details about ESLint / Prettier, including links and configuration.
 
 # Now:
-- Test SvelteHeroIcons (and write on readme)
-- Minimal test of load() API
-- LoggerJS
-- 
+- Easily using search params to store state.
+- Easily using cookies to store persistent state (user set from server, theme set from client).
+- Showing a toast after a successful form redirect.
+- Showing a toast after a connection error globally.
+- Drizzle ORM relations.
+- ShadCN / Flowbite
+
+### Less priority:
+- Superforms component library https://www.formsnap.dev/docs
+- Superforms nested data https://superforms.rocks/concepts/nested-data

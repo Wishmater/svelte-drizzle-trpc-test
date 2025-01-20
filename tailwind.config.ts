@@ -3,9 +3,7 @@ import forms from '@tailwindcss/forms';
 import typography from '@tailwindcss/typography';
 import type { Config } from 'tailwindcss';
 
-const withMT = require('@material-tailwind/html/utils/withMT');
-
-export default withMT({
+export default {
 	content: ['./src/**/*.{html,js,svelte,ts}'],
 
 	theme: {
@@ -13,4 +11,4 @@ export default withMT({
 	},
 
 	plugins: [typography, forms, containerQueries]
-}) satisfies Config;
+} satisfies Config;

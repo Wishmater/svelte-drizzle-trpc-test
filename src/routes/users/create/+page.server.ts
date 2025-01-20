@@ -8,6 +8,7 @@ import { users } from '$lib/server/db/schema/schema';
 import { route } from '$lib/ROUTES';
 import * as v from 'valibot';
 import { UserInsertSchemaBackend } from '$lib/server/validations/user';
+import { logger } from '$lib/common/logging';
 
 export const load = (async (event) => {
 	const form = await superValidate(valibot(UserInsertSchema), {
@@ -19,7 +20,7 @@ export const load = (async (event) => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-	default: async ({ request }) => {
+	default: async ({ locals, request }) => {
 		const form = await superValidate(request, valibot(UserInsertSchemaBackend));
 
 		if (!form.valid) {
@@ -28,7 +29,10 @@ export const actions = {
 
 		await new Promise((resolve) => setTimeout(resolve, 2000));
 		const result = await db.insert(users).values(form.data).returning().execute();
-		console.log('User inserted successfully', result[0]);
+		logger.log({
+			level: 'trace',
+			message: `User inserted successfully: ${result[0].username}`
+		});
 
 		// TODO 1 send success message
 		return redirect(303, route('/users'));
