@@ -48,15 +48,22 @@ SvelteKit is GREAT for web apps and has REALLY GOOD [documentation](https://svel
 Easy way to fully handle a DB, includes schema, migration, and type-safe queries.
 Supports a lot of DBs, like PostgreSQL and SQLite, probably better to use SQLite since we're using this for simple projects anyways.
 <br>Good starting points for learning:
-<br>[Schema declaration basics](https://orm.drizzle.team/docs/sql-schema-declaration)
-<br>[SQLite connection](https://orm.drizzle.team/docs/get-started-sqlite)
-<br>[SQLite schema column types](https://orm.drizzle.team/docs/column-types/sqlite) (also see example in this repo for how to handle dates and enums)
-<br>[Schema relations](https://orm.drizzle.team/docs/relations)
-<br>[Queries](https://orm.drizzle.team/docs/rqb)
-<br>[Generate Valibot schema from Drizzle schema](https://orm.drizzle.team/docs/valibot)
+<br>  [Schema declaration basics](https://orm.drizzle.team/docs/sql-schema-declaration)
+<br>  [SQLite connection](https://orm.drizzle.team/docs/get-started-sqlite)
+<br>  [SQLite schema column types](https://orm.drizzle.team/docs/column-types/sqlite) (also see example in this repo for how to handle dates and enums)
+<br>  [Schema relations](https://orm.drizzle.team/docs/relations)
+<br>  [Queries](https://orm.drizzle.team/docs/rqb)
+<br>  [Generate Valibot schema from Drizzle schema](https://orm.drizzle.team/docs/valibot)
 <br>Drizzle offers a lot of value: by declaring DB schemas once, we also get TS types and Valibot schema validators, we don't have to repeat 3 times: DB + model + validation.
 It probably gets worse the more complex the database is, at which point the only solution so far is to manually manage the DB (and probably not use a JS backend at that point, at least for the API part).
-
+<br><br>To migrate DB schema (assuming fully managed by Drizzle, read migration types):
+```bash
+npx drizzle-kit push
+```
+To launch Drizzle Studio db inspector:
+```bash
+npx drizzle-kit studio
+```
 
 ## Back-Front Communication
 
@@ -73,11 +80,11 @@ On more complicated webapps, we might need a full-blown custom RESTful API.
 Ideally, we also use OpenAPI definitions to generate types and serialization code.
 At this point, we might as well use a real language in the backend.
 <br>Options for generating frontend types and APIs (haven't tried them yet):
-<br>https://github.com/astahmer/typed-openapi
-<br>https://github.com/OpenAPITools/openapi-generator-cli
+<br>  https://github.com/astahmer/typed-openapi
+<br>  https://github.com/OpenAPITools/openapi-generator-cli
 <br>If for some reason we're still using JS on the backend, try generating openAPI specs from zod schema definitions:
-<br>https://www.speakeasy.com/openapi/frameworks/zod
-<br>https://github.com/asteasolutions/zod-to-openapi
+<br>  https://www.speakeasy.com/openapi/frameworks/zod
+<br>  https://github.com/asteasolutions/zod-to-openapi
 
 ### [tRPC](https://icflorescu.github.io/trpc-sveltekit/) (NO)
 Really convoluted and hacky. 

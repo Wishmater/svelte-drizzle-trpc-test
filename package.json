@@ -44,6 +44,7 @@
 
 		"svelte": "^5.0.0",
 		"svelte-check": "^4.0.0",
+		"sveltekit-superforms": "2.22.1",
 		"@prgm/sveltekit-progress-bar": "^3.0.1",
 		"svelte-hero-icons": "^5.2.0",
 
