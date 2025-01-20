@@ -2,9 +2,7 @@ import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
 import { sql } from 'drizzle-orm';
 import { createInsertSchema, createSelectSchema, createUpdateSchema } from 'drizzle-valibot';
 import * as v from 'valibot';
-
-export const userTypes = ['Type 1', 'Type 2', 'Type 3'] as const;
-export type UserType = (typeof userTypes)[number];
+import { userTypes } from '../../../common/validations/user'; // using $lib breaks drizzle-kit :((
 
 // Drizzle ORM schema declaration useful links:
 // https://orm.drizzle.team/docs/sql-schema-declaration
@@ -19,6 +17,7 @@ export const users = sqliteTable('user', {
 	age: integer('age').notNull(),
 	active: integer('active', { mode: 'boolean' }).notNull().default(true),
 	type: text('type', { enum: userTypes }).notNull(),
+	// type: integer('type').$type<UserType>().notNull(), // this doesn't really work because it is exported as a number in types, prefer doing these as string unions
 	selectedDate: integer('selectedDate', { mode: 'timestamp' }).$type<Date>(),
 	createdAt: integer('createdAt', { mode: 'timestamp_ms' })
 		.$type<Date>()
@@ -28,12 +27,13 @@ export const users = sqliteTable('user', {
 
 // Create Valibot schema from DB declaration:
 // https://orm.drizzle.team/docs/valibot
-export const UserSelectSchema = createSelectSchema(users);
+// we can't use this directly in the client, so we still have to declare the Valibot schema separately,
+// but at least this way TS will validate that the types match
+const UserSchema = createSelectSchema(users);
+export type User = v.InferOutput<typeof UserSchema>;
 
-export const UserInsertSchema = createInsertSchema(users, {
-	email: (e) => v.pipe(e, v.email())
-});
-
-export type User = v.InferOutput<typeof UserSelectSchema>;
-
+const UserInsertSchema = createInsertSchema(users);
 export type UserInsert = v.InferOutput<typeof UserInsertSchema>;
+
+const UserUpdateSchema = createUpdateSchema(users);
+export type UserUpdate = v.InferOutput<typeof UserUpdateSchema>;

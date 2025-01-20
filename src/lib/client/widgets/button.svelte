@@ -6,13 +6,11 @@
 		onclick: () => void;
 		ripple: 'default' | 'light' | 'dark' | null;
 		buttonType: 'raised' | 'ghost' | 'outlined' | 'inkwell';
-		className: string;
 	}
 	let {
 		onclick = () => {},
 		ripple = 'default',
 		buttonType = 'raised',
-		className = '',
 		children,
 		...rest
 	}: Props & HTMLButtonAttributes = $props();
@@ -43,7 +41,7 @@
 					focus:opacity-[0.85] focus:shadow-md focus:shadow-gray-900/60
 					active:scale-[0.98] active:opacity-[0.85] active:shadow-sm active:shadow-gray-900/60
 					disabled:pointer-events-none disabled:opacity-50 disabled:shadow-sm
-					{className}"
+					{rest.class}"
 	>
 		{@render children()}
 	</button>
@@ -59,7 +57,7 @@
 					active:bg-slate-100
 					disabled:pointer-events-none
 					disabled:opacity-50 disabled:shadow-sm has-[:hover]:bg-transparent
-					{className}"
+					{rest.class}"
 	>
 		{@render children()}
 	</div>
@@ -76,7 +74,7 @@
 					hover:scale-[1.02] hover:bg-slate-200 focus:bg-slate-200
 					active:scale-[0.98] active:bg-slate-200
 					disabled:pointer-events-none disabled:opacity-50 disabled:shadow-sm
-					{className}"
+					{rest.class}"
 	>
 		{@render children()}
 	</button>

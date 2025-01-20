@@ -1,25 +1,30 @@
-import type { Actions } from './$types';
-import * as v from 'valibot';
-import { UserInsertSchema } from '$lib/server/db/schema/schema';
+import type { PageServerLoad, Actions } from './$types';
+import { message, superValidate } from 'sveltekit-superforms';
+import { UserInsertSchema } from '$lib/common/validations/user';
+import { valibot } from 'sveltekit-superforms/adapters';
 import { fail } from '@sveltejs/kit';
-import { ValiError } from 'valibot';
+
+export const load = (async (event) => {
+	const form = await superValidate(valibot(UserInsertSchema));
+	return {
+		form
+	};
+}) satisfies PageServerLoad;
 
 export const actions = {
 	default: async ({ request }) => {
-		const formData = await request.formData();
-		const model = v.safeParse(UserInsertSchema, formData);
-		try {
-		} catch (error) {
-			if (error instanceof ValiError) {
-				console.log('ValiError');
-				console.log(error.issues);
-			}
+		console.log('PASS');
+		const form = await superValidate(request, valibot(UserInsertSchema));
+		console.log(form);
+
+		if (!form.valid) {
+			// Again, return { form } and things will just work.
+			return fail(422, { form });
 		}
-		if (!model.success) {
-			console.log('fail');
-			fail(422, { validationIssues: model.issues });
-		}
-		console.log(model.output);
-		console.log(model.output);
+
+		// TODO: Do something with the validated form.data
+
+		// Display a success status message
+		return message(form, 'User created successfully');
 	}
 } satisfies Actions;
