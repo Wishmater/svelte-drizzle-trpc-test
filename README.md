@@ -55,7 +55,8 @@ Supports a lot of DBs, like PostgreSQL and SQLite, probably better to use SQLite
 <br>  [Queries](https://orm.drizzle.team/docs/rqb)
 <br>  [Generate Valibot schema from Drizzle schema](https://orm.drizzle.team/docs/valibot)
 <br>Drizzle offers a lot of value: by declaring DB schemas once, we also get TS types and Valibot schema validators, we don't have to repeat 3 times: DB + model + validation.
-It probably gets worse the more complex the database is, at which point the only solution so far is to manually manage the DB (and probably not use a JS backend at that point, at least for the API part).
+Note: generated valibot schemas can't be imported in frontend, so if this is required, the solution is to declare them separately and use 'satisfies' to ensure they have the correct fields (check example).
+<br>It probably gets worse the more complex the database is, at which point the only solution so far is to manually manage the DB (and probably not use a JS backend at that point, at least for the API part).
 <br><br>To migrate DB schema (assuming fully managed by Drizzle, read migration types):
 ```bash
 npx drizzle-kit push
@@ -68,7 +69,7 @@ npx drizzle-kit studio
 ## Back-Front Communication
 
 ### [Valibot](https://valibot.dev/) (mandatory)
-Generally better than Zod: more lightweight and more customizable.
+Generally better than Zod: more lightweight and more customizable. The only pain point is the i18n and generally getting readable errors to show to the user, but there are some clever ways to make it easier (check _valibot.ts in example).
 
 ### [SveltKit load() APIs](https://svelte.dev/docs/kit/load) (optional)
 For simpler apps, ideally we can just use SvelteKit's load() and actions APIs. 
@@ -95,6 +96,9 @@ Type inference (its main sale point) is buggy and hard to implement.
 
 ### [Svelte](https://svelte.dev/docs/svelte/overview) (mandatory)
 Best frontend JS framework by far, and also integrates with SvelteKit, of course.
+
+### [SuperForms](https://superforms.rocks/) (optional)
+Mandatory if the app needs complex forms. Helps automate most of the state management and communication of a form, and integrates super nicely with SvelteKit and Valibot (check example).
 
 ### [Tailwind](https://tailwindcss.com/docs/installation) (mandatory)
 Tailwind = good.
