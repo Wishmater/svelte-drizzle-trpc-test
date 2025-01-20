@@ -1,10 +1,12 @@
 <script lang="ts">
+	import type { InputConstraint } from 'sveltekit-superforms';
+
 	interface Props {
-		value: string;
+		value: number | undefined;
 		errors: string[] | undefined;
-		constraints: any;
+		constraints: InputConstraint | undefined;
 	}
-	let { value = $bindable(''), errors, constraints }: Props = $props();
+	let { value = $bindable(), errors, constraints }: Props = $props();
 </script>
 
 <label for="age" class="pt-4">Age</label>

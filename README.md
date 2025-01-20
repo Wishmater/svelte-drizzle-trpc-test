@@ -58,7 +58,7 @@ Supports a lot of DBs, like PostgreSQL and SQLite, probably better to use SQLite
 <br>  [Queries](https://orm.drizzle.team/docs/rqb)
 <br>  [Generate Valibot schema from Drizzle schema](https://orm.drizzle.team/docs/valibot)
 <br>Drizzle offers a lot of value: by declaring DB schemas once, we also get TS types and Valibot schema validators, we don't have to repeat 3 times: DB + model + validation.
-Note: generated valibot schemas can't be imported in frontend, so if this is required, the solution is to declare them separately and use 'satisfies' to ensure they have the correct fields (check example).
+Note: generated valibot schemas can't be imported in frontend, so if this is required, the solution is to declare them separately and use 'satisfies' to ensure they have the correct fields (check example). Also, said common schema must be extended in the backend to add async validations that can only be executed in the backend (check example).
 <br>It probably gets worse the more complex the database is, at which point the only solution so far is to manually manage the DB (and probably not use a JS backend at that point, at least for the API part).
 <br><br>To migrate DB schema (assuming fully managed by Drizzle, read migration types):
 ```bash

@@ -11,5 +11,7 @@ export const load = (async (event) => {
 
 async function getUsers(): Promise<User[]> {
 	await new Promise((resolve) => setTimeout(resolve, 1000));
-	return db.query.users.findMany();
+	return db.query.users.findMany({
+		orderBy: (users, { asc }) => asc(users.id)
+	});
 }

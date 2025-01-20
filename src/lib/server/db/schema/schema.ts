@@ -2,7 +2,7 @@ import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
 import { sql } from 'drizzle-orm';
 import { createInsertSchema, createSelectSchema, createUpdateSchema } from 'drizzle-valibot';
 import * as v from 'valibot';
-import { userTypes } from '../../../common/validations/user'; // using $lib breaks drizzle-kit :((
+import { userTypes } from '../../../common/enums/user_types'; // using $lib breaks drizzle-kit :((
 
 // Drizzle ORM schema declaration useful links:
 // https://orm.drizzle.team/docs/sql-schema-declaration

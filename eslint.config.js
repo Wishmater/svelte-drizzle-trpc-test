@@ -4,7 +4,7 @@ import * as typescriptParser from '@typescript-eslint/parser';
 import svelteConfig from './svelte.config.js';
 
 export default [
-	...js.configs.recommended,
+	...js.configs.recommended, // eslint-disable-line
 	...eslintPluginSvelte.configs.recommended,
 	{
 		files: ['**/*.svelte'],

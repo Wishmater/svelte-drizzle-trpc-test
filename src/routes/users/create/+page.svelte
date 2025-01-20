@@ -1,10 +1,11 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import Button from '$lib/client/widgets/button.svelte';
-	import SuperDebug, { superForm } from 'sveltekit-superforms';
 	import { dev } from '$app/environment';
+	import SuperDebug, { superForm } from 'sveltekit-superforms';
 	import { valibotClient } from 'sveltekit-superforms/adapters';
 	import { UserInsertSchema } from '$lib/common/validations/user';
+	import Button from '$lib/client/widgets/button.svelte';
+	import Spinner from '$lib/client/widgets/spinner.svelte';
 	import UsernameInput from '$lib/client/forms/user/UsernameInput.svelte';
 	import AgeInput from '$lib/client/forms/user/AgeInput.svelte';
 	import TypeInput from '$lib/client/forms/user/TypeInput.svelte';
@@ -12,12 +13,14 @@
 	interface Props {
 		data: PageData;
 	}
-	let { data } = $props();
+	let { data }: Props = $props();
 
-	const { form, errors, constraints, enhance } = superForm(data.form, {
+	const { form, errors, constraints, enhance, delayed, capture, restore } = superForm(data.form, {
 		validators: valibotClient(UserInsertSchema)
-		// customValidity: true
+		// customValidity: true // cool, but shows errors one but one, so overall not that good...
 	});
+
+	export const snapshot = { capture, restore }; // SvelteKit magic for restoring state to the page after navigation
 </script>
 
 <div class="h-16"></div>
@@ -52,7 +55,12 @@
 
 	<TypeInput bind:value={$form.type} errors={$errors.type} constraints={$constraints.type} />
 
-	<Button class="mt-8">Create User</Button>
+	<div class="mt-8 flex flex-row items-center gap-4">
+		<Button>Create User</Button>
+		{#if $delayed}
+			<Spinner size={34}></Spinner>
+		{/if}
+	</div>
 </form>
 
 {#if dev}
