@@ -10,7 +10,7 @@ import * as v from 'valibot';
 import { UserInsertSchemaBackend } from '$lib/server/validations/user';
 import { logger } from '$lib/common/logging';
 
-export const load = (async (event) => {
+export const load = (async () => {
 	const form = await superValidate(valibot(UserInsertSchema), {
 		defaults: v.getDefaults(UserInsertSchema) as unknown as v.InferOutput<typeof UserInsertSchema> // hack so all fields are initialized empty, this is a bug in the library that is made for Zod and doesn't work well with Valibot https://superforms.rocks/default-values
 	});
@@ -20,9 +20,8 @@ export const load = (async (event) => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-	default: async ({ locals, request }) => {
+	default: async ({ request }) => {
 		const form = await superValidate(request, valibot(UserInsertSchemaBackend));
-
 		if (!form.valid) {
 			return fail(422, { form });
 		}
@@ -33,7 +32,6 @@ export const actions = {
 			level: 'trace',
 			message: `User inserted successfully: ${result[0].username}`
 		});
-
 		// TODO 1 send success message
 		return redirect(303, route('/users'));
 	}
