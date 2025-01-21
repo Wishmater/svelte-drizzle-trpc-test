@@ -12,7 +12,8 @@ const loggerMiddleware: Handle = async ({ event, resolve }) => {
 		status: response.status,
 		event: event,
 		response: response,
-		errorMessage: undefined
+		errorMessage: undefined,
+		error: undefined
 	});
 	return response;
 };
@@ -24,7 +25,8 @@ export const handleError: HandleServerError = async ({ error, event, status, mes
 		status: status,
 		event: event,
 		response: event.locals.response,
-		errorMessage: message
+		errorMessage: message,
+		error: error
 	});
 	return {
 		status,
@@ -32,17 +34,14 @@ export const handleError: HandleServerError = async ({ error, event, status, mes
 	};
 };
 
-function log({
-	status,
-	errorMessage = undefined,
-	event,
-	response = undefined
-}: {
+interface LogParams {
 	status: number;
 	errorMessage: string | undefined;
 	event: RequestEvent;
 	response: Response | undefined;
-}) {
+	error: unknown | undefined;
+}
+function log({ status, errorMessage = undefined, event, response = undefined, error }: LogParams) {
 	if (event.locals.startTimer == -1) return; // already logged
 	const method = event.request.method.toUpperCase();
 	const path = event.request.url;
@@ -57,6 +56,7 @@ function log({
 		level: 'info',
 		message: `${isApi ? 'API ' : ''}RESPONSE ${status} ${method} ${path}${errorMessage ? ` ${errorMessage}` : ''}`,
 		type: isApi ? 'ServerResponse' : 'ServerAPIResponse',
+		error: error,
 		extra: {
 			method: method,
 			status: status,
