@@ -4,6 +4,7 @@
 	import { route } from '$lib/ROUTES';
 	import Pencil from 'lucide-svelte/icons/pencil';
 	import type { User } from '$lib/server/db/schema/schema';
+	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
 
 	interface Props {
 		data: PageData;
@@ -32,6 +33,7 @@
 			</a>
 		</div>
 		{#await data.users}
+			<LoaderCircle size={34} class="animate-spin"></LoaderCircle>
 			Loading async data...
 		{:then users}
 			{#each users as user}

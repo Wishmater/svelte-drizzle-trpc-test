@@ -44,6 +44,8 @@
 
 <script lang="ts">
 	import { cn } from '$lib/client/utils.js';
+	import { mode } from 'mode-watcher';
+	import { get } from 'svelte/store';
 
 	let {
 		class: className,
@@ -62,9 +64,9 @@
 		e.stopPropagation();
 		if (ripple == 'none' || variant == 'link') return;
 		let currentRipple = ripple;
-		const isDarkTheme = false; // TODO 1 how do we know this in JS
 		if (currentRipple == 'default') {
-			if (isDarkTheme) {
+			const themeMode = get(mode);
+			if (themeMode == 'dark') {
 				currentRipple = 'light';
 			} else {
 				currentRipple =

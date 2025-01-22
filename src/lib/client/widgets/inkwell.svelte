@@ -1,6 +1,8 @@
 <script lang="ts">
 	import Ripple from 'material-ripple-effects';
 	import type { HTMLButtonAttributes } from 'svelte/elements';
+	import { get } from 'svelte/store';
+	import { mode } from 'mode-watcher';
 
 	interface Props {
 		onclick: () => void;
@@ -19,9 +21,9 @@
 		e.stopPropagation();
 		if (ripple == 'none') return;
 		let currentRipple = ripple;
-		const isDarkTheme = false; // TODO 1 how do we know this in JS
 		if (currentRipple == 'default') {
-			currentRipple = isDarkTheme ? 'light' : 'dark';
+			const themeMode = get(mode);
+			currentRipple = themeMode == 'dark' ? 'light' : 'dark';
 		}
 		rippleEffect.create(e, currentRipple);
 	}

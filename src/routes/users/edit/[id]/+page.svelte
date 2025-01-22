@@ -5,7 +5,7 @@
 	import { valibotClient } from 'sveltekit-superforms/adapters';
 	import { UserUpdateSchema } from '$lib/common/validations/user';
 	import { Button } from '$lib/client/components/ui/button';
-	import Spinner from '$lib/client/widgets/spinner.svelte';
+	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
 	import AgeInput from '$lib/client/forms/user/AgeInput.svelte';
 	import TypeInput from '$lib/client/forms/user/TypeInput.svelte';
 
@@ -38,10 +38,14 @@
 
 	<AgeInput bind:value={$form.age} errors={$errors.age} constraints={$constraints.age} />
 
-	<div class="mt-8 flex flex-row items-center gap-4">
-		<Button>Edit User</Button>
+	<div class="mt-8">
 		{#if $delayed}
-			<Spinner size={34}></Spinner>
+			<Button disabled>
+				<LoaderCircle size={34} class="animate-spin"></LoaderCircle>
+				Create User
+			</Button>
+		{:else}
+			<Button type="submit">Create User</Button>
 		{/if}
 	</div>
 </form>

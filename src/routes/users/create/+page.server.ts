@@ -21,17 +21,19 @@ export const load = (async () => {
 
 export const actions = {
 	default: async ({ request }) => {
+		console.log('PASS 1');
 		const form = await superValidate(request, valibot(UserInsertSchemaBackend));
 		if (!form.valid) {
 			return fail(422, { form });
 		}
-
+		console.log('PASS 2');
 		await new Promise((resolve) => setTimeout(resolve, 2000));
 		const result = await db.insert(users).values(form.data).returning().execute();
 		logger.log({
 			level: 'trace',
 			message: `User inserted successfully: ${result[0].username}`
 		});
+		console.log('PASS 3');
 		// TODO 1 send success message
 		return redirect(303, route('/users'));
 	}
