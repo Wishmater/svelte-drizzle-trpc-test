@@ -1,18 +1,27 @@
 <script lang="ts">
-	import Button from '$lib/client/widgets/button.svelte';
+	import MyButton from '$lib/client/widgets/button.svelte';
 	import { route } from '$lib/ROUTES';
+	import { Button } from '$lib/client/components/ui/button';
 </script>
 
 <div class="flex flex-col content-center items-center justify-center">
-	<Button buttonType="inkwell" class="flex flex-col items-center gap-12 rounded-xl p-12">
+	<MyButton buttonType="inkwell" class="flex flex-col items-center gap-12 rounded-xl p-12">
 		<a href={route('/users')}>
-			<Button class="!bg-blue-700">Users</Button>
+			<Button variant="raised" class="!bg-blue-700 !text-zinc-100">Users</Button>
 		</a>
 
-		<Button class="!bg-blue-900">Component</Button>
+		<Button variant="default">Default</Button>
 
-		<Button buttonType="outlined">Outlined</Button>
+		<Button variant="raised">Raised</Button>
 
-		<Button buttonType="ghost">Ghost</Button>
-	</Button>
+		<Button variant="secondary">Secondary</Button>
+
+		<Button variant="outline">Outline</Button>
+
+		<Button variant="ghost" onclick={() => alert('kappa')}>Ghost</Button>
+
+		<Button variant="link">Link</Button>
+
+		<Button variant="destructive">Destructive</Button>
+	</MyButton>
 </div>
