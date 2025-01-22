@@ -9,6 +9,8 @@ import { route } from '$lib/ROUTES';
 import * as v from 'valibot';
 import { UserInsertSchemaBackend } from '$lib/server/validations/user';
 import { logger } from '$lib/common/logging';
+import { type ToastMessage } from '$lib/common/util/toast_message';
+import { redirectWithMessage } from '$lib/server/util/toast_message';
 
 export const load = (async () => {
 	const form = await superValidate(valibot(UserInsertSchema), {
@@ -20,21 +22,23 @@ export const load = (async () => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-	default: async ({ request }) => {
-		console.log('PASS 1');
+	default: async ({ request, cookies }) => {
 		const form = await superValidate(request, valibot(UserInsertSchemaBackend));
 		if (!form.valid) {
 			return fail(422, { form });
 		}
-		console.log('PASS 2');
+
 		await new Promise((resolve) => setTimeout(resolve, 2000));
 		const result = await db.insert(users).values(form.data).returning().execute();
+
+		const message: ToastMessage = {
+			type: 'success',
+			message: `User "${result[0].username}" created successfully.`
+		};
 		logger.log({
 			level: 'trace',
-			message: `User inserted successfully: ${result[0].username}`
+			message: message.message
 		});
-		console.log('PASS 3');
-		// TODO 1 send success message
-		return redirect(303, route('/users'));
+		return redirectWithMessage(303, route('/users'), cookies, message);
 	}
 } satisfies Actions;
