@@ -16,15 +16,21 @@
 
 	const rippleEffect: Ripple = new Ripple();
 	function createRipple<T extends Event>(e: T) {
+		if (ripple == 'none' || variant == 'link') return;
 		let currentRipple = ripple;
+		const isDarkTheme = false; // TODO 1 how do we know this in JS
 		if (currentRipple == 'default') {
-			currentRipple =
-				variant == 'default' || variant == 'destructive' || variant == 'raised' ? 'light' : 'dark';
+			if (isDarkTheme) {
+				currentRipple = 'light';
+			} else {
+				currentRipple =
+					variant == 'default' || variant == 'destructive' || variant == 'raised'
+						? 'light'
+						: 'dark';
+			}
 		}
-		if (ripple) {
-			e.stopPropagation();
-			rippleEffect.create(e, currentRipple);
-		}
+		e.stopPropagation();
+		rippleEffect.create(e, currentRipple);
 	}
 </script>
 
