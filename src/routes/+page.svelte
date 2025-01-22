@@ -1,11 +1,11 @@
 <script lang="ts">
-	import MyButton from '$lib/client/widgets/button.svelte';
 	import { route } from '$lib/ROUTES';
 	import { Button } from '$lib/client/components/ui/button';
+	import InkWell from '$lib/client/widgets/inkwell.svelte';
 </script>
 
 <div class="flex flex-col content-center items-center justify-center">
-	<MyButton buttonType="inkwell" class="flex flex-col items-center gap-12 rounded-xl p-12">
+	<InkWell class="flex flex-col items-center gap-12 rounded-xl p-12">
 		<a href={route('/users')}>
 			<Button variant="raised" class="!bg-blue-700 !text-zinc-100">Users</Button>
 		</a>
@@ -23,5 +23,5 @@
 		<Button variant="link">Link</Button>
 
 		<Button variant="destructive">Destructive</Button>
-	</MyButton>
+	</InkWell>
 </div>

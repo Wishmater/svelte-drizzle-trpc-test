@@ -16,6 +16,7 @@
 
 	const rippleEffect: Ripple = new Ripple();
 	function createRipple<T extends Event>(e: T) {
+		e.stopPropagation();
 		if (ripple == 'none' || variant == 'link') return;
 		let currentRipple = ripple;
 		const isDarkTheme = false; // TODO 1 how do we know this in JS
@@ -29,7 +30,6 @@
 						: 'dark';
 			}
 		}
-		e.stopPropagation();
 		rippleEffect.create(e, currentRipple);
 	}
 </script>

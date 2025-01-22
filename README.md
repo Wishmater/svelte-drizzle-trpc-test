@@ -118,6 +118,7 @@ Tailwind = good.
 
 ### [SvelteHeroIcons](https://www.npmjs.com/package/svelte-hero-icons) (mandatory)
 Easily use icons from https://heroicons.com/, without having to copy-paste them.
+<br>If using shadcn, use [lucide-svelte](https://lucide.dev/icons/) instead, since it's already used by shadcn.
 
 ### Some higher level library on top of tailwind (optional)
 The UI can be built with html / tailwind alone, but it's often useful to have higher level components, especially since we dont have designers.

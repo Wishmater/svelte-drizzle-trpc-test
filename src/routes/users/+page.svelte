@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import Button from '$lib/client/widgets/button.svelte';
+	import { Button } from '$lib/client/components/ui/button';
 	import { route } from '$lib/ROUTES';
-	import { Icon, PencilSquare } from 'svelte-hero-icons';
+	import Pencil from 'lucide-svelte/icons/pencil';
 	import type { User } from '$lib/server/db/schema/schema';
 
 	interface Props {
@@ -37,8 +37,8 @@
 			{#each users as user}
 				<div class="flex flex-row items-center">
 					<a href={getUserEditRoute(user)}>
-						<Button buttonType="ghost" class="h-8 !p-1">
-							<Icon src={PencilSquare} />
+						<Button variant="ghost" size="icon">
+							<Pencil />
 						</Button>
 					</a>
 					{user.username}: {user.email} -- {user.selectedDate}

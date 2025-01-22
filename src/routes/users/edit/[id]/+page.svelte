@@ -4,7 +4,7 @@
 	import SuperDebug, { superForm } from 'sveltekit-superforms';
 	import { valibotClient } from 'sveltekit-superforms/adapters';
 	import { UserUpdateSchema } from '$lib/common/validations/user';
-	import Button from '$lib/client/widgets/button.svelte';
+	import { Button } from '$lib/client/components/ui/button';
 	import Spinner from '$lib/client/widgets/spinner.svelte';
 	import AgeInput from '$lib/client/forms/user/AgeInput.svelte';
 	import TypeInput from '$lib/client/forms/user/TypeInput.svelte';
