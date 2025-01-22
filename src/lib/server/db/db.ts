@@ -26,7 +26,7 @@ if ((await db.$count(users)) == 0) {
 			password: 'admin.123',
 			email: 'admin@fromzero.com',
 			age: 69420,
-			type: 'Type 1'
+			type: 'Admin'
 		})
 		.execute();
 }

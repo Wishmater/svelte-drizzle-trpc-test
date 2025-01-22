@@ -60,3 +60,15 @@ export function initCustomErrorMessages() {
 		'en'
 	);
 }
+
+export const JsonStringParseSchema = v.pipe(
+	v.string(),
+	v.transform((input) => {
+		try {
+			return JSON.parse(input);
+		} catch (error) {
+			return { jsonStringParseError: error };
+		}
+	}),
+	v.check((input) => !input.jsonParseError, 'Json parsing failed. The string is not a valid json.')
+);
