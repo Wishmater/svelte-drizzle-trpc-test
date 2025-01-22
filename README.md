@@ -124,6 +124,7 @@ Easily use icons from https://heroicons.com/, without having to copy-paste them.
 The UI can be built with html / tailwind alone, but it's often useful to have higher level components, especially since we dont have designers.
 
 #### [ShadCN](https://www.shadcn-svelte.com/)
+If using Svelte 5, make sure to use https://next.shadcn-svelte.com instead.
 
 #### [Flowbite](https://flowbite-svelte.com/)
 

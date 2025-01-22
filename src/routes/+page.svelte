@@ -6,9 +6,9 @@
 
 <div class="flex flex-col content-center items-center justify-center">
 	<InkWell class="flex flex-col items-center gap-12 rounded-xl p-12">
-		<a href={route('/users')}>
-			<Button variant="raised" class="!bg-blue-700 !text-zinc-100">Users</Button>
-		</a>
+		<Button variant="raised" href={route('/users')} class="!bg-blue-700 !text-zinc-100"
+			>Users</Button
+		>
 
 		<Button variant="default">Default</Button>
 
