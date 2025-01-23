@@ -50,6 +50,8 @@
 					{user.username}: {user.email} -- {user.selectedDate}
 				</div>
 			{/each}
+		{:catch _}
+			Error !!!
 		{/await}
 	</div>
 </div>
