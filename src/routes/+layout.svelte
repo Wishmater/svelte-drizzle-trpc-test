@@ -14,6 +14,10 @@
 	});
 </script>
 
+<svelte:head>
+	<title>SvelteKit Demo</title>
+</svelte:head>
+
 <ModeWatcher />
 <Toaster />
 <div class="min-h-screen bg-background font-sans">

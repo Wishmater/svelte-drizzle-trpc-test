@@ -23,7 +23,7 @@ To run the production version locally:
 node build
 ```
 
-
+---
 # Technologies / Tools used
 
 
@@ -44,7 +44,7 @@ Check example for how to setup. There needs to be a global variable in common, t
 ### Eslint + Prettier (optional)
 In the long run, it is better to standardize code. Even if the standard is bad, it's better than no standard. Make sure to enable eslint + prettier formatter on save on your IDE. Check example project for ts and svelte plugins.
 
-
+---
 ## Backend
 
 ### [SvelteKit](https://svelte.dev/docs/kit/introduction) (mandatory)
@@ -72,6 +72,7 @@ To launch Drizzle Studio db inspector:
 npx drizzle-kit studio
 ```
 
+---
 ## Back-Front Communication
 
 ### [Valibot](https://valibot.dev/) (mandatory)
@@ -99,6 +100,7 @@ Really convoluted and hacky.
 Has to use its own router instead of integrating with svelteKit.
 Type inference (its main sale point) is buggy and hard to implement.
 
+---
 ## Frontend
 
 ### [Svelte](https://svelte.dev/docs/svelte/overview) (mandatory)
@@ -124,15 +126,17 @@ Easily use icons from https://heroicons.com/, without having to copy-paste them.
 The UI can be built with html / tailwind alone, but it's often useful to have higher level components, especially since we dont have designers.
 
 #### [ShadCN](https://www.shadcn-svelte.com/)
-If using Svelte 5, make sure to use https://next.shadcn-svelte.com instead.
+If using Svelte 5, make sure to use https://next.shadcn-svelte.com instead. Really good so far, has both simple components like buttons with understandable code that can be customized, and complicated components that save a lot of work. Has good integrations with Svelte and Superforms. The only negative so far is that it imports a lot of libs, some of them decently heavy, we need to keep track of this.
 
 #### [Flowbite](https://flowbite-svelte.com/)
-
-#### [SkeletonUI](https://www.skeleton.dev/) (NO (dice Fide))
+Untested. Seems to have more variety of high level components than shadcn, otherwise I don't see the merit.
 
 #### [Material-Tailwind](https://www.material-tailwind.com/docs/html/installation) (MEH)
 Headless tailwind components. The only sane way to use it is to create our own Svelte components from it and use them.
 <br>The main issue is that each component requires to import JS (even for things that can be done without JS), some components can be used, but it doesn't really work as a main UI lib as well as chadCN does.
+
+#### [SkeletonUI](https://www.skeleton.dev/) (NO)
+Fide says NO.
 
 #### [DaisyUI](https://daisyui.com/) (NO)
 Trying to do high complexity components is even discouraged in the tailwind documentation itself.
@@ -140,19 +144,32 @@ Daisy often interferes with vanilla tailwind and makes it so you can't copy/past
 Ideally, we want a library that declares Svelte components, or headless tailwind components to create our own.
 
 
+## Other manual / hardcoded improvements
 
+### Page transitions
+
+
+### Full SSR mode
+The idea is simple: backend will read the value of a cookie "FullSSR", and if it is true, it will await all Promises instead of streaming them. This will make the site fully SSR: initial response time will be slower, but it should be usable without JS.
+
+### Error handling before hydration
+By adding a simple vanilla JS script to app.html (check example), we can listen to JS errors that happen before hydration, and prompt the user to refresh in case of a connection error, or use full SSR if an old browser doesn't support our JS.
+
+### Error handling after hydration
+After hydration, listen to errors, log them, and in case of connection errors, show a toast to the user prompting a reload (see example hooks.client.ts). Beware that prompting the user to reload is only a good solution if the page is set up in a way where a lot of state won't be lost on reload.
+
+
+---
+# Now:
+- Implement page transitions. Write about it in readme.
+- (PARTIALLY IMPLEMENTED) Easily using cookies to store persistent state. To test, do one that changes
+- Easily using search params to store state (to test, do users page options to show all, only admin, or only guests).
+- Implement auth with cookies sessions, include logging user, and sending user data to frontend via load(). User data will be passed around in locals.user once loaded in logging middleware.
+- Drizzle ORM relations.
 
 # Pending 
 - Auth.
 - Add more details about ESLint / Prettier, including links and configuration.
-
-# Now:
-- Easily using search params to store state.
-- Easily using cookies to store persistent state (user set from server, theme set from client).
-- Showing a toast after a successful form redirect.
-- Showing a toast after a connection error globally.
-- Drizzle ORM relations.
-- ShadCN / Flowbite
 
 ### Less priority:
 - Superforms component library https://www.formsnap.dev/docs

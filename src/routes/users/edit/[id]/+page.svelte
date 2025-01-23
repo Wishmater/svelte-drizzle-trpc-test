@@ -22,6 +22,10 @@
 	export const snapshot = { capture, restore }; // SvelteKit magic for restoring state to the page after navigation
 </script>
 
+<svelte:head>
+	<title>Edit User - SvelteKit Demo</title>
+</svelte:head>
+
 <div class="h-16"></div>
 <form method="POST" use:enhance class="flex flex-col items-center">
 	<TypeInput bind:value={$form.type} errors={$errors.type} constraints={$constraints.type} />

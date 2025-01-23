@@ -16,6 +16,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Users - SvelteKit Demo</title>
+</svelte:head>
+
 <div class="flex flex-col items-center">
 	<div class="w-[512px]">
 		<div class="flex flex-row items-center justify-between">

@@ -15,13 +15,20 @@
 	}
 	let { data }: Props = $props();
 
-	const { form, errors, constraints, enhance, delayed, capture, restore } = superForm(data.form, {
-		validators: valibotClient(UserInsertSchema)
-		// customValidity: true // cool, but shows errors one but one, so overall not that good...
-	});
+	const { form, errors, constraints, enhance, delayed, timeout, capture, restore } = superForm(
+		data.form,
+		{
+			validators: valibotClient(UserInsertSchema)
+			// customValidity: true // cool, but shows errors one but one, so overall not that good...
+		}
+	);
 
 	export const snapshot = { capture, restore }; // SvelteKit magic for restoring state to the page after navigation
 </script>
+
+<svelte:head>
+	<title>Create User - SvelteKit Demo</title>
+</svelte:head>
 
 <div class="h-16"></div>
 <form method="POST" use:enhance class="flex flex-col items-center">
@@ -56,7 +63,7 @@
 	<TypeInput bind:value={$form.type} errors={$errors.type} constraints={$constraints.type} />
 
 	<div class="mt-8">
-		{#if $delayed}
+		{#if $delayed && !$timeout}
 			<Button disabled>
 				<LoaderCircle size={34} class="animate-spin"></LoaderCircle>
 				Create User
