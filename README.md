@@ -161,16 +161,11 @@ After hydration, listen to errors, log them, and in case of connection errors, s
 
 ---
 # Now:
+- Drizzle ORM relations.
 - Implement page transitions. Write about it in readme.
-- (PARTIALLY IMPLEMENTED) Easily using cookies to store persistent state. To test, do one that changes
+- (PARTIALLY IMPLEMENTED) Easily using cookies to store persistent state. To test, do one that changes.
 - Easily using search params to store state (to test, do users page options to show all, only admin, or only guests).
 - Implement auth with cookies sessions, include logging user, and sending user data to frontend via load(). User data will be passed around in locals.user once loaded in logging middleware.
-- Drizzle ORM relations.
-
-# Pending 
-- Auth.
-- Add more details about ESLint / Prettier, including links and configuration.
-
-### Less priority:
-- Superforms component library https://www.formsnap.dev/docs
-- Superforms nested data https://superforms.rocks/concepts/nested-data
+- Auth. With cookies / sessions
+- Shadcn Superforms component library https://www.formsnap.dev/docs
+- More shadcn components
