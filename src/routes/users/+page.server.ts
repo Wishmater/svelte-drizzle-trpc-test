@@ -1,6 +1,6 @@
 import type { PageServerLoad } from './$types';
 import { db } from '$lib/server/db/db';
-import type { User } from '$lib/server/db/schema/schema';
+import type { User } from '$lib/server/db/schema/user';
 import { isFullSSR } from '$lib/server/util/full_ssr';
 
 export const load = (async ({ cookies }) => {

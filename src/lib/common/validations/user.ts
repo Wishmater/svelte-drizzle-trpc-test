@@ -1,5 +1,5 @@
 import * as v from 'valibot';
-import type { User, UserInsert, UserUpdate } from '$lib/server/db/schema/schema';
+import type { User, UserInsert, UserUpdate } from '$lib/server/db/schema/user';
 import { initCustomErrorMessages } from '$lib/common/validations/_valibot';
 import { userTypes } from '$lib/common/enums/user_types';
 

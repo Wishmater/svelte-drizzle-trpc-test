@@ -3,7 +3,7 @@
 	import { Button } from '$lib/client/components/ui/button';
 	import { route } from '$lib/ROUTES';
 	import Pencil from 'lucide-svelte/icons/pencil';
-	import type { User } from '$lib/server/db/schema/schema';
+	import type { User } from '$lib/server/db/schema/user';
 	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
 
 	interface Props {
@@ -12,7 +12,7 @@
 	let { data }: Props = $props();
 
 	function getUserEditRoute(user: User) {
-		return route('/users/edit/[id]', { id: user.id });
+		return route('/users/[id]/edit', { id: user.id });
 	}
 </script>
 

@@ -4,7 +4,7 @@ import { UserInsertSchema } from '$lib/common/validations/user';
 import { valibot } from 'sveltekit-superforms/adapters';
 import { fail, redirect } from '@sveltejs/kit';
 import { db } from '$lib/server/db/db';
-import { users } from '$lib/server/db/schema/schema';
+import { users } from '$lib/server/db/schema/user';
 import { route } from '$lib/ROUTES';
 import * as v from 'valibot';
 import { UserInsertSchemaBackend } from '$lib/server/validations/user';

@@ -4,13 +4,13 @@ import { UserUpdateSchema } from '$lib/common/validations/user';
 import { valibot } from 'sveltekit-superforms/adapters';
 import { error, fail } from '@sveltejs/kit';
 import { db } from '$lib/server/db/db';
-import { users } from '$lib/server/db/schema/schema';
+import { users } from '$lib/server/db/schema/user';
 import { IntegerRouteParam } from '$lib/server/validations/_route_params';
 import { route } from '$lib/ROUTES';
 import * as v from 'valibot';
 import { logger } from '$lib/common/logging';
 import { eq } from 'drizzle-orm';
-import { toastMessageKey, type ToastMessage } from '$lib/common/util/toast_message';
+import { type ToastMessage } from '$lib/common/util/toast_message';
 import { redirectWithMessage } from '$lib/server/util/toast_message';
 
 export const load = (async ({ params }) => {

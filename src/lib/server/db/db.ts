@@ -1,8 +1,9 @@
 import { drizzle } from 'drizzle-orm/libsql';
 import { createClient } from '@libsql/client';
-import { env } from '$env/dynamic/private';
-import * as schema from '$lib/server/db/schema/schema';
-import { users } from '$lib/server/db/schema/schema';
+import { env } from '$env/dynamic/private'; // importing $env doesn't work with drizzle-kit, so we must use node .env :((
+import * as userSchema from './schema/user';
+import * as postSchema from './schema/post';
+import * as tagSchema from './schema/tag';
 
 // using drizzle ORM with SQLite for db management.
 // https://orm.drizzle.team/docs/get-started-sqlite
@@ -13,20 +14,8 @@ const client = createClient({ url: env.DATABASE_URL });
 
 export const db = drizzle(client, {
 	schema: {
-		...schema
+		...userSchema,
+		...postSchema,
+		...tagSchema
 	}
 });
-
-// TODO find a better way to do db data initialization
-if ((await db.$count(users)) == 0) {
-	await db
-		.insert(users)
-		.values({
-			username: 'admin',
-			password: 'admin.123',
-			email: 'admin@fromzero.com',
-			age: 69420,
-			type: 'Admin'
-		})
-		.execute();
-}
