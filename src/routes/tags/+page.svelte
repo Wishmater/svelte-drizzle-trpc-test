@@ -3,7 +3,6 @@
 	import { route } from '$lib/ROUTES';
 	import { Button } from '$lib/client/components/ui/button';
 	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
-	import Delete from 'lucide-svelte/icons/trash';
 
 	export let data: PageData;
 </script>
@@ -18,31 +17,21 @@
 			<div>
 				<br />
 				<br />
-				Posts Page
+				Tags Page
 				<br />
 				<br />
 			</div>
-			<a href={route('/posts/create')}>
-				<Button>Create Post</Button>
+			<a href={route('/tags/create')}>
+				<Button>Create Tag</Button>
 			</a>
 		</div>
-		{#await data.posts}
+		{#await data.tags}
 			<LoaderCircle size={34} class="animate-spin"></LoaderCircle>
 			Loading async data...
-		{:then posts}
-			{#each posts as post}
-				<div class="py-2"></div>
-				<div class="flex flex-row items-center">
-					<form method="POST" action={route('delete /posts')}>
-						<!-- TODO 1 add shadcn tooltip -->
-						<!-- TODO 1 add shadcn confirm alert dialog -->
-						<input type="hidden" name="id" value={post.id} />
-						<Button type="submit" variant="ghost" size="icon">
-							<Delete />
-						</Button>
-					</form>
-					{post.author.username} - {post.createdAt.toLocaleString(undefined, {})}
-					<br />{post.content}
+		{:then tags}
+			{#each tags as tag}
+				<div class="py-2">
+					{tag.name}
 				</div>
 			{/each}
 		{:catch _}

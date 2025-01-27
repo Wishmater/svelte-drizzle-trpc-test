@@ -17,6 +17,10 @@
 			<Button variant="raised" href={route('/posts')} class="!bg-green-700 !text-zinc-100">
 				Posts
 			</Button>
+
+			<Button variant="raised" href={route('/tags')} class="!bg-orange-700 !text-zinc-100">
+				Tags
+			</Button>
 		</div>
 		<Separator />
 

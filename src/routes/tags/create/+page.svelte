@@ -3,9 +3,9 @@
 	import { dev } from '$app/environment';
 	import SuperDebug, { superForm } from 'sveltekit-superforms';
 	import { valibotClient } from 'sveltekit-superforms/adapters';
-	import { PostInsertSchema } from '$lib/common/validations/post';
 	import { Button } from '$lib/client/components/ui/button';
 	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
+	import { TagInsertSchema } from '$lib/common/validations/tag';
 
 	interface Props {
 		data: PageData;
@@ -15,7 +15,7 @@
 	const { form, errors, constraints, enhance, delayed, timeout, capture, restore } = superForm(
 		data.form,
 		{
-			validators: valibotClient(PostInsertSchema)
+			validators: valibotClient(TagInsertSchema)
 		}
 	);
 
@@ -28,26 +28,24 @@
 
 <div class="h-16"></div>
 <form method="POST" use:enhance class="flex flex-col items-center">
-	<label for="content" class="pt-4">Post</label>
+	<label for="content" class="pt-4">Tag Name</label>
 	<input
 		type="text"
-		name="content"
-		aria-invalid={$errors.content ? 'true' : undefined}
-		bind:value={$form.content}
-		{...$constraints.content}
+		name="name"
+		aria-invalid={$errors.name ? 'true' : undefined}
+		bind:value={$form.name}
+		{...$constraints.name}
 	/>
-	{#if $errors.content}<span class="text-red-500">{$errors.content}</span>{/if}
-
-	<input type="hidden" name="authorId" bind:value={$form.authorId} />
+	{#if $errors.name}<span class="text-red-500">{$errors.name}</span>{/if}
 
 	<div class="mt-8">
 		{#if $delayed && !$timeout}
 			<Button disabled>
 				<LoaderCircle size={34} class="animate-spin"></LoaderCircle>
-				Create Post
+				Create Tag
 			</Button>
 		{:else}
-			<Button type="submit">Create Post</Button>
+			<Button type="submit">Create Tag</Button>
 		{/if}
 	</div>
 </form>
