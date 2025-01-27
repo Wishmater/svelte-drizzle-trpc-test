@@ -10,6 +10,8 @@
  */
 const PAGES = {
   "/": `/`,
+  "/posts": `/posts`,
+  "/posts/create": `/posts/create`,
   "/users": `/users`,
   "/users/[id]/edit": (params: { id: (string | number) }) => {
     return `/users/${params.id}/edit`
@@ -28,6 +30,7 @@ const SERVERS = {
  * ACTIONS
  */
 const ACTIONS = {
+  "default /posts/create": `/posts/create`,
   "default /users/[id]/edit": (params: { id: (string | number) }) => {
     return `/users/${params.id}/edit`
   },
@@ -138,9 +141,9 @@ export function route<T extends keyof AllTypes>(key: T, ...params: any[]): strin
 * ```
 */
 export type KIT_ROUTES = {
-  PAGES: { '/': never, '/users': never, '/users/[id]/edit': 'id', '/users/create': never }
+  PAGES: { '/': never, '/posts': never, '/posts/create': never, '/users': never, '/users/[id]/edit': 'id', '/users/create': never }
   SERVERS: Record<string, never>
-  ACTIONS: { 'default /users/[id]/edit': 'id', 'default /users/create': never }
+  ACTIONS: { 'default /posts/create': never, 'default /users/[id]/edit': 'id', 'default /users/create': never }
   LINKS: Record<string, never>
   Params: { id: never }
 }

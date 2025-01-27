@@ -7,7 +7,7 @@ initCustomErrorMessages(); // must be called on every validation file to ensure 
 
 export const UserSchema = v.object({
 	id: v.number(),
-	username: v.pipe(v.string(), v.trim(), v.nonEmpty(), v.maxLength(20)), // TODO 1 validate unique ?
+	username: v.pipe(v.string(), v.trim(), v.nonEmpty(), v.maxLength(20)),
 	email: v.pipe(v.string(), v.trim(), v.nonEmpty(), v.email()),
 	password: v.pipe(v.string(), v.trim(), v.nonEmpty(), v.minLength(8)),
 	age: v.pipe(v.number(), v.integer(), v.minValue(1), v.maxValue(150)),
@@ -22,8 +22,6 @@ export const UserInsertSchema = v.omit(UserSchema, [
 	'createdAt',
 	'active'
 ]) satisfies v.GenericSchema<UserInsert>;
-
-const value = v.getDefaults(UserInsertSchema);
 
 export const UserUpdateSchema = v.omit(UserSchema, [
 	'id',

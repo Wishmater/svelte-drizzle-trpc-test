@@ -8,10 +8,16 @@
 
 <div class="flex flex-col content-center items-center justify-center">
 	<InkWell class="flex flex-col items-center gap-12 rounded-xl p-12">
-		<Button variant="raised" href={route('/users')} class="!bg-blue-700 !text-zinc-100">
-			<Users class="h-4 w-4" />
-			Users
-		</Button>
+		<div class="flex flex-row gap-8">
+			<Button variant="raised" href={route('/users')} class="!bg-blue-700 !text-zinc-100">
+				<Users class="h-4 w-4" />
+				Users
+			</Button>
+
+			<Button variant="raised" href={route('/posts')} class="!bg-green-700 !text-zinc-100">
+				Posts
+			</Button>
+		</div>
 		<Separator />
 
 		<Button variant="default">Default</Button>

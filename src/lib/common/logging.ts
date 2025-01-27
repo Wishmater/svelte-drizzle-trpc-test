@@ -26,7 +26,12 @@ const devScopes: Scope[] = [
 export function initLoggerDev() {
 	class DebugFormat {
 		format(log_obj: any) {
-			return `${log_obj.time} ${log_obj.level} ${log_obj.message}`;
+			// TODO 1 move this to logger.js and make it prettier
+			return (
+				`${log_obj.time} ${log_obj.level} ${log_obj.message}` +
+				(!log_obj.error ? '' : `\n  ${log_obj.error}`) +
+				(!log_obj.stacktrace ? '' : `\n  ${log_obj.stacktrace}`)
+			);
 		}
 	}
 	const logger = new Logger(

@@ -12,7 +12,7 @@ export const tags = sqliteTable('tag', {
 });
 
 export const tagsRelations = relations(tags, ({ many }) => ({
-	posts: many(postTags)
+	tagPosts: many(postTags)
 }));
 
 export const postTags = sqliteTable(

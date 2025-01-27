@@ -20,7 +20,7 @@ export const postsRelations = relations(posts, ({ one, many }) => ({
 		fields: [posts.authorId],
 		references: [users.id]
 	}),
-	tags: many(postTags)
+	postTags: many(postTags)
 }));
 
 const PostSchema = createSelectSchema(posts);
@@ -28,6 +28,3 @@ export type Post = v.InferOutput<typeof PostSchema>;
 
 const PostInsertSchema = createInsertSchema(posts);
 export type PostInsert = v.InferOutput<typeof PostInsertSchema>;
-
-const PostUpdateSchema = createUpdateSchema(posts);
-export type PostUpdate = v.InferOutput<typeof PostUpdateSchema>;
