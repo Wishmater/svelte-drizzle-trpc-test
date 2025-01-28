@@ -3,12 +3,10 @@
 	import { browser, dev } from '$app/environment';
 	import SuperDebug, { superForm } from 'sveltekit-superforms';
 	import { valibotClient } from 'sveltekit-superforms/adapters';
-	import { Button } from '$lib/client/components/ui/button';
 	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
 	import { TagInsertSchema } from '$lib/common/validations/tag';
 	import * as Form from '$lib/client/components/ui/form/index.js';
 	import { Input } from '$lib/client/components/ui/input';
-	import { object } from 'valibot';
 
 	interface Props {
 		data: PageData;

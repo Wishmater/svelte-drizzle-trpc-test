@@ -1,25 +1,34 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import { dev } from '$app/environment';
+	import { browser, dev } from '$app/environment';
 	import SuperDebug, { superForm } from 'sveltekit-superforms';
 	import { valibotClient } from 'sveltekit-superforms/adapters';
 	import { PostInsertSchema } from '$lib/common/validations/post';
-	import { Button } from '$lib/client/components/ui/button';
 	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
+	import * as Form from '$lib/client/components/ui/form/index.js';
+	import { Input } from '$lib/client/components/ui/input';
 
 	interface Props {
 		data: PageData;
 	}
 	let { data }: Props = $props();
 
-	const { form, errors, constraints, enhance, delayed, timeout, capture, restore } = superForm(
-		data.form,
-		{
-			validators: valibotClient(PostInsertSchema)
-		}
-	);
+	const form = superForm(data.form, {
+		validators: valibotClient(PostInsertSchema)
+	});
+	const { form: formData, constraints, errors, enhance, delayed, timeout, capture, restore } = form;
 
 	export const snapshot = { capture, restore }; // SvelteKit magic for restoring state to the page after navigation
+
+	// remove constraints on hydration, to show prettier JS objects. While JS is loading, html constraints still work
+	if (browser) {
+		const constraintsValue = $constraints;
+		for (const key1 in constraintsValue) {
+			for (const key2 in constraintsValue[key1]) {
+				constraintsValue[key1]![key2] = false;
+			}
+		}
+	}
 </script>
 
 <svelte:head>
@@ -28,34 +37,35 @@
 
 <div class="h-16"></div>
 <form method="POST" use:enhance class="flex flex-col items-center">
-	<label for="content" class="pt-4">Post</label>
-	<input
-		type="text"
-		name="content"
-		aria-invalid={$errors.content ? 'true' : undefined}
-		bind:value={$form.content}
-		{...$constraints.content}
-	/>
-	{#if $errors.content}<span class="text-red-500">{$errors.content}</span>{/if}
+	<Form.Field {form} name="content">
+		<Form.Control>
+			{#snippet children({ props })}
+				<Form.Label>Post</Form.Label>
+				<Input {...props} bind:value={$formData.content} {...$constraints?.content} />
+			{/snippet}
+		</Form.Control>
+		<Form.Description class="sr-only">Post content.</Form.Description>
+		<Form.FieldErrors />
+	</Form.Field>
 
-	<input type="hidden" name="authorId" bind:value={$form.authorId} />
+	<input type="hidden" name="authorId" bind:value={$formData.authorId} />
 
 	<div class="mt-8">
 		{#if $delayed && !$timeout}
-			<Button disabled>
+			<Form.Button disabled>
 				<LoaderCircle size={34} class="animate-spin"></LoaderCircle>
 				Create Post
-			</Button>
+			</Form.Button>
 		{:else}
-			<Button type="submit">Create Post</Button>
+			<Form.Button>Create Post</Form.Button>
 		{/if}
 	</div>
 </form>
 
-{#if dev}
+{#if dev && browser}
 	<div class="flex flex-wrap justify-center gap-8 pt-16">
 		<div class="min-w-96">
-			<SuperDebug data={$form} collapsed={true} collapsible={true} label="Form Data" />
+			<SuperDebug data={$formData} collapsed={true} collapsible={true} label="Form Data" />
 		</div>
 		<div class="min-w-96">
 			<SuperDebug data={$errors} collapsed={true} collapsible={true} label="Errors" />

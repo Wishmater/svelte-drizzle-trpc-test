@@ -1,20 +1,19 @@
 <script lang="ts">
-	import type { InputConstraint } from 'sveltekit-superforms';
+	import { useFormField } from 'formsnap';
+	import type { Infer } from 'sveltekit-superforms';
+	import { UserInsertSchema } from '$lib/common/validations/user';
 
-	interface Props {
-		value: string | undefined;
-		errors: string[] | undefined;
-		constraints: InputConstraint | undefined;
-	}
-	let { value = $bindable(), errors, constraints }: Props = $props();
+	const field = useFormField<Infer<typeof UserInsertSchema>>({});
+	const formData = field.form.form;
+	console.log();
 </script>
 
 <label for="username" class="pt-4">Username</label>
 <input
 	type="text"
 	name="username"
-	aria-invalid={errors ? 'true' : undefined}
-	bind:value
-	{...constraints}
+	aria-invalid={field.errors ? 'true' : undefined}
+	bind:value={$formData.username}
+	{...field.constraints}
 />
-{#if errors}<span class="text-red-500">{errors}</span>{/if}
+{#if field.errors}<span class="text-red-500">{field.errors}</span>{/if}

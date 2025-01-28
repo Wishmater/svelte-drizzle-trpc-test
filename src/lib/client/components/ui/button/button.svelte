@@ -15,7 +15,7 @@
 				ghost: 'hover:bg-accent hover:text-accent-foreground',
 				link: 'text-primary underline-offset-4 hover:underline',
 				raised:
-					'bg-primary text-primary-foreground hover:bg-primary/90 shadow-md shadow-gray-900/60 hover:scale-[1.02] hover:shadow-lg hover:shadow-gray-900/60 focus:opacity-[0.85] focus:shadow-md focus:shadow-gray-900/60 active:scale-[0.98] active:shadow-sm active:shadow-gray-900/60'
+					'bg-primary text-primary-foreground hover:bg-primary/90 shadow-md shadow-gray-900/60 hover:scale-[1.02] hover:shadow-lg hover:shadow-gray-900/60 focus:opacity-[0.85] active:scale-[0.98] active:shadow-sm active:shadow-gray-900/60'
 			},
 			size: {
 				default: 'h-10 px-4 py-2',
