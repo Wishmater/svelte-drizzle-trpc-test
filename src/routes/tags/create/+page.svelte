@@ -36,7 +36,7 @@
 </svelte:head>
 
 <div class="h-16"></div>
-<form method="POST" use:enhance class="flex flex-col items-center">
+<form method="POST" use:enhance class="flex w-96 flex-col items-center">
 	<Form.Field {form} name="name">
 		<Form.Control>
 			{#snippet children({ props })}

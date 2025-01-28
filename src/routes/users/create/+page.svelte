@@ -10,6 +10,7 @@
 	import TypeInput from '$lib/client/forms/user/TypeInput.svelte';
 	import * as Form from '$lib/client/components/ui/form/index.js';
 	import { Input } from '$lib/client/components/ui/input';
+	import SelectedDateInput from '$lib/client/forms/user/SelectedDateInput.svelte';
 
 	interface Props {
 		data: PageData;
@@ -38,11 +39,8 @@
 	<title>Create User - SvelteKit Demo</title>
 </svelte:head>
 
-<div class="h-16"></div>
-<form method="POST" use:enhance class="flex flex-col items-center">
-	<Form.Field {form} name="username">
-		<UsernameInput />
-	</Form.Field>
+<form method="POST" use:enhance class="flex w-96 flex-col items-center gap-4 px-4">
+	<Form.Field {form} name="username"><UsernameInput /></Form.Field>
 
 	<Form.Field {form} name="email">
 		<Form.Control>
@@ -72,18 +70,20 @@
 		<Form.FieldErrors />
 	</Form.Field>
 
-	<!--	<AgeInput bind:value={$form.age} errors={$errors.age} constraints={$constraints.age} />-->
+	<Form.Field {form} name="age"><AgeInput /></Form.Field>
 
-	<!--	<TypeInput bind:value={$form.type} errors={$errors.type} constraints={$constraints.type} />-->
+	<Form.Field {form} name="type"><TypeInput /></Form.Field>
 
-	<div class="mt-8">
+	<!--	<Form.Field {form} name="selectedDate"><SelectedDateInput /></Form.Field>-->
+
+	<div class="mt-4 w-full">
 		{#if $delayed && !$timeout}
-			<Form.Button disabled>
+			<Form.Button disabled class="w-full">
 				<LoaderCircle size={34} class="animate-spin"></LoaderCircle>
 				Create User
 			</Form.Button>
 		{:else}
-			<Form.Button>Create User</Form.Button>
+			<Form.Button class="w-full">Create User</Form.Button>
 		{/if}
 	</div>
 </form>

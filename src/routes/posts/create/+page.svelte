@@ -6,7 +6,7 @@
 	import { PostInsertSchema } from '$lib/common/validations/post';
 	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
 	import * as Form from '$lib/client/components/ui/form/index.js';
-	import { Input } from '$lib/client/components/ui/input';
+	import { Textarea } from '$lib/client/components/ui/textarea';
 
 	interface Props {
 		data: PageData;
@@ -35,13 +35,12 @@
 	<title>Create User - SvelteKit Demo</title>
 </svelte:head>
 
-<div class="h-16"></div>
-<form method="POST" use:enhance class="flex flex-col items-center">
+<form method="POST" use:enhance class="flex w-96 flex-col items-center">
 	<Form.Field {form} name="content">
 		<Form.Control>
 			{#snippet children({ props })}
 				<Form.Label>Post</Form.Label>
-				<Input {...props} bind:value={$formData.content} {...$constraints?.content} />
+				<Textarea {...props} bind:value={$formData.content} {...$constraints?.content} />
 			{/snippet}
 		</Form.Control>
 		<Form.Description class="sr-only">Post content.</Form.Description>
