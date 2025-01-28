@@ -74,7 +74,7 @@
 
 	<Form.Field {form} name="type"><TypeInput /></Form.Field>
 
-	<!--	<Form.Field {form} name="selectedDate"><SelectedDateInput /></Form.Field>-->
+	<Form.Field {form} name="selectedDate"><SelectedDateInput /></Form.Field>
 
 	<div class="mt-4 w-full">
 		{#if $delayed && !$timeout}
