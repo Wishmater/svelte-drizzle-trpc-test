@@ -1,25 +1,36 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import { dev } from '$app/environment';
+	import { browser, dev } from '$app/environment';
 	import SuperDebug, { superForm } from 'sveltekit-superforms';
 	import { valibotClient } from 'sveltekit-superforms/adapters';
 	import { Button } from '$lib/client/components/ui/button';
 	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
 	import { TagInsertSchema } from '$lib/common/validations/tag';
+	import * as Form from '$lib/client/components/ui/form/index.js';
+	import { Input } from '$lib/client/components/ui/input';
+	import { object } from 'valibot';
 
 	interface Props {
 		data: PageData;
 	}
 	let { data }: Props = $props();
 
-	const { form, errors, constraints, enhance, delayed, timeout, capture, restore } = superForm(
-		data.form,
-		{
-			validators: valibotClient(TagInsertSchema)
-		}
-	);
+	const form = superForm(data.form, {
+		validators: valibotClient(TagInsertSchema)
+	});
+	const { form: formData, constraints, errors, enhance, delayed, timeout, capture, restore } = form;
 
 	export const snapshot = { capture, restore }; // SvelteKit magic for restoring state to the page after navigation
+
+	// remove constraints on hydration, to show prettier JS objects. While JS is loading, html constraints still work
+	if (browser) {
+		const constraintsValue = $constraints;
+		for (const key1 in constraintsValue) {
+			for (const key2 in constraintsValue[key1]) {
+				constraintsValue[key1]![key2] = false;
+			}
+		}
+	}
 </script>
 
 <svelte:head>
@@ -28,32 +39,35 @@
 
 <div class="h-16"></div>
 <form method="POST" use:enhance class="flex flex-col items-center">
-	<label for="content" class="pt-4">Tag Name</label>
-	<input
-		type="text"
-		name="name"
-		aria-invalid={$errors.name ? 'true' : undefined}
-		bind:value={$form.name}
-		{...$constraints.name}
-	/>
-	{#if $errors.name}<span class="text-red-500">{$errors.name}</span>{/if}
+	<Form.Field {form} name="name">
+		<Form.Control>
+			{#snippet children({ props })}
+				<Form.Label>Tag Name</Form.Label>
+				<Input {...props} bind:value={$formData.name} {...$constraints?.name} />
+			{/snippet}
+		</Form.Control>
+		<Form.Description class="sr-only">
+			Publicly displayed name for the Tag. Must be unique.
+		</Form.Description>
+		<Form.FieldErrors />
+	</Form.Field>
 
 	<div class="mt-8">
 		{#if $delayed && !$timeout}
-			<Button disabled>
+			<Form.Button disabled>
 				<LoaderCircle size={34} class="animate-spin"></LoaderCircle>
 				Create Tag
-			</Button>
+			</Form.Button>
 		{:else}
-			<Button type="submit">Create Tag</Button>
+			<Form.Button>Create Tag</Form.Button>
 		{/if}
 	</div>
 </form>
 
-{#if dev}
+{#if dev && browser}
 	<div class="flex flex-wrap justify-center gap-8 pt-16">
 		<div class="min-w-96">
-			<SuperDebug data={$form} collapsed={true} collapsible={true} label="Form Data" />
+			<SuperDebug data={$formData} collapsed={true} collapsible={true} label="Form Data" />
 		</div>
 		<div class="min-w-96">
 			<SuperDebug data={$errors} collapsed={true} collapsible={true} label="Errors" />
