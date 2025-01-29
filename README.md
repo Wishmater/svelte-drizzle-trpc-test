@@ -150,7 +150,7 @@ Ideally, we want a library that declares Svelte components, or headless tailwind
 ## Other manual / hardcoded improvements
 
 ### Page transitions
-Modern browsers support [view transitions](https://developer.mozilla.org/en-US/docs/Web/API/View_Transition_API/Using). This is really easy to setup (see example in main layout and app.css), and makes navigation look way nicer. Reading the docs, it also seems to support a lot of complicated customization options, but just the default looks really nice.
+Modern browsers support [view transitions](https://developer.mozilla.org/en-US/docs/Web/API/View_Transition_API/Using). This is really easy to setup (see example in main layout and app.css), and makes navigation look way nicer. Reading the docs, it also seems to support a lot of complicated customization options, but just the default looks really nice. If app.css is set up properly, it even works in full ssr mode without JS.
 
 ### Full SSR mode
 The idea is simple: backend will read the value of a cookie "FullSSR", and if it is true, it will await all Promises instead of streaming them. This will make the site fully SSR: initial response time will be slower, but it should be usable without JS.
