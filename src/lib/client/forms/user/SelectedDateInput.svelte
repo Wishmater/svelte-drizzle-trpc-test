@@ -56,7 +56,7 @@
 					bind:placeholder
 					minValue={new CalendarDate(1900, 1, 1)}
 					maxValue={today(getLocalTimeZone())}
-					calendarLabel="Date of birth"
+					calendarLabel="Some Random Date"
 					onValueChange={(v) => {
 						$formData.selectedDate = v?.toDate(getLocalTimeZone()) ?? null;
 						isOpen = false;
@@ -64,6 +64,7 @@
 				/>
 			</Popover.Content>
 		</Popover.Root>
+		<input hidden value={$formData.selectedDate} name={props.name} />
 	{/snippet}
 </Form.Control>
 <Form.FieldErrors />

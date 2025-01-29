@@ -32,9 +32,7 @@
 				<br />
 				<br />
 			</div>
-			<a href={route('/users/create')}>
-				<Button>Create User</Button>
-			</a>
+			<Button href={route('/users/create')}>Create User</Button>
 		</div>
 		{#await data.users}
 			<LoaderCircle size={34} class="animate-spin"></LoaderCircle>
@@ -42,12 +40,10 @@
 		{:then users}
 			{#each users as user}
 				<div class="flex flex-row items-center">
-					<a href={getUserEditRoute(user)}>
-						<Button variant="ghost" size="icon">
-							<Pencil />
-						</Button>
-					</a>
-					{user.username}: {user.email} -- {user.selectedDate}
+					<Button href={getUserEditRoute(user)} variant="ghost" size="icon">
+						<Pencil />
+					</Button>
+					{user.username}: {user.email}
 				</div>
 			{/each}
 		{:catch _}

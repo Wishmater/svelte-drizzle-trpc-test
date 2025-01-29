@@ -21,9 +21,7 @@
 				<br />
 				<br />
 			</div>
-			<a href={route('/tags/create')}>
-				<Button>Create Tag</Button>
-			</a>
+			<Button href={route('/tags/create')}>Create Tag</Button>
 		</div>
 		{#await data.tags}
 			<LoaderCircle size={34} class="animate-spin"></LoaderCircle>

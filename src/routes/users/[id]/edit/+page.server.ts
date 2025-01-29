@@ -51,7 +51,6 @@ export const actions = {
 			.where(eq(users.id, id.output))
 			.returning()
 			.execute();
-
 		const message: ToastMessage = {
 			type: 'success',
 			message: `User "${result[0].username}" edited successfully.`

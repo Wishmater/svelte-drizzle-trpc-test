@@ -22,9 +22,7 @@
 				<br />
 				<br />
 			</div>
-			<a href={route('/posts/create')}>
-				<Button>Create Post</Button>
-			</a>
+			<Button href={route('/posts/create')}>Create Post</Button>
 		</div>
 		{#await data.posts}
 			<LoaderCircle size={34} class="animate-spin"></LoaderCircle>

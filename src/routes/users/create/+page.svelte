@@ -11,6 +11,7 @@
 	import * as Form from '$lib/client/components/ui/form/index.js';
 	import { Input } from '$lib/client/components/ui/input';
 	import SelectedDateInput from '$lib/client/forms/user/SelectedDateInput.svelte';
+	import { disableConstraints } from '$lib/client/util/forms';
 
 	interface Props {
 		data: PageData;
@@ -24,15 +25,7 @@
 
 	export const snapshot = { capture, restore }; // SvelteKit magic for restoring state to the page after navigation
 
-	// remove constraints on hydration, to show prettier JS objects. While JS is loading, html constraints still work
-	if (browser) {
-		const constraintsValue = $constraints;
-		for (const key1 in constraintsValue) {
-			for (const key2 in constraintsValue[key1]) {
-				constraintsValue[key1]![key2] = false;
-			}
-		}
-	}
+	disableConstraints($constraints); // remove constraints on hydration, to show prettier JS errors. While JS is loading, html constraints still work
 </script>
 
 <svelte:head>
