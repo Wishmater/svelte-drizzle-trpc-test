@@ -8,6 +8,17 @@
 	import { route } from '$lib/ROUTES';
 	import * as Tooltip from '$lib/client/components/ui/tooltip/index.js';
 	import { ProgressBar } from '@prgm/sveltekit-progress-bar';
+	import { onNavigate } from '$app/navigation';
+
+	onNavigate((navigation) => {
+		if (!document.startViewTransition) return;
+		return new Promise((resolve) => {
+			document.startViewTransition(async () => {
+				resolve();
+				await navigation.complete;
+			});
+		});
+	});
 
 	let { children } = $props();
 
