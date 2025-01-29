@@ -2,20 +2,18 @@ import type { PageServerLoad, Actions } from './$types';
 import { superValidate } from 'sveltekit-superforms';
 import { UserInsertSchema } from '$lib/common/validations/user';
 import { valibot } from 'sveltekit-superforms/adapters';
-import { fail, redirect } from '@sveltejs/kit';
+import { fail } from '@sveltejs/kit';
 import { db } from '$lib/server/db/db';
 import { users } from '$lib/server/db/schema/user';
 import { route } from '$lib/ROUTES';
 import * as v from 'valibot';
-import { UserInsertSchemaBackend } from '$lib/server/validations/user';
+import { userDefaults, UserInsertSchemaBackend } from '$lib/server/validations/user';
 import { logger } from '$lib/common/logging';
 import { type ToastMessage } from '$lib/common/util/toast_message';
 import { redirectWithMessage } from '$lib/server/util/toast_message';
 
 export const load = (async () => {
-	const form = await superValidate(valibot(UserInsertSchema), {
-		defaults: v.getDefaults(UserInsertSchema) as unknown as v.InferOutput<typeof UserInsertSchema> // hack so all fields are initialized empty, this is a bug in the library that is made for Zod and doesn't work well with Valibot https://superforms.rocks/default-values
-	});
+	const form = await superValidate(valibot(UserInsertSchema), { defaults: userDefaults });
 	return {
 		form
 	};

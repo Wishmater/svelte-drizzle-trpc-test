@@ -2,6 +2,7 @@
 	import { route } from '$lib/ROUTES';
 	import { Button } from '$lib/client/components/ui/button';
 	import InkWell from '$lib/client/widgets/inkwell.svelte';
+	import SimpleAlertDialog from '$lib/client/widgets/simple_alert_dialog.svelte';
 	import { Separator } from '$lib/client/components/ui/separator';
 	import Users from 'lucide-svelte/icons/users';
 </script>
@@ -36,6 +37,8 @@
 
 		<Button variant="link">Link</Button>
 
-		<Button variant="destructive">Destructive</Button>
+		<SimpleAlertDialog onSubmit={() => alert('onSubmit')} onCancel={() => alert('onCancel')}>
+			<Button variant="destructive">Destructive</Button>
+		</SimpleAlertDialog>
 	</InkWell>
 </div>

@@ -4,15 +4,14 @@
 	import SuperDebug, { superForm } from 'sveltekit-superforms';
 	import { valibotClient } from 'sveltekit-superforms/adapters';
 	import { UserUpdateSchema } from '$lib/common/validations/user';
-	import { Button } from '$lib/client/components/ui/button';
 	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
-	import AgeInput from '$lib/client/forms/user/AgeInput.svelte';
-	import TypeInput from '$lib/client/forms/user/TypeInput.svelte';
+	import AgeInput from '$lib/client/forms/user/age_input.svelte';
+	import TypeInput from '$lib/client/forms/user/type_input.svelte';
 	import { disableConstraints } from '$lib/client/util/forms';
-	import SelectedDateInput from '$lib/client/forms/user/SelectedDateInput.svelte';
+	import SelectedDateInput from '$lib/client/forms/user/selected_date_input.svelte';
 	import * as Form from '$lib/client/components/ui/form/index.js';
-	import { Input } from '$lib/client/components/ui/input';
 	import { Switch } from '$lib/client/components/ui/switch';
+	import SimpleAlertDialog from '$lib/client/widgets/simple_alert_dialog.svelte';
 
 	interface Props {
 		data: PageData;
@@ -20,20 +19,27 @@
 	let { data }: Props = $props();
 
 	const form = superForm(data.form, {
-		validators: valibotClient(UserUpdateSchema)
+		validators: valibotClient(UserUpdateSchema),
+		taintedMessage: () => showTaintedAlert()
 	});
 	const { form: formData, constraints, errors, enhance, delayed, timeout, capture, restore } = form;
 
 	export const snapshot = { capture, restore }; // SvelteKit magic for restoring state to the page after navigation
 
 	disableConstraints($constraints); // remove constraints on hydration, to show prettier JS errors. While JS is loading, html constraints still work
+
+	let showTaintedAlert: () => Promise<boolean> = $state(null!);
 </script>
 
 <svelte:head>
 	<title>Edit User - SvelteKit Demo</title>
 </svelte:head>
 
-<div class="h-16"></div>
+<SimpleAlertDialog
+	title="Are you sure you want to leave the form?"
+	subtitle="Your changes may be lost."
+	bind:showAlert={showTaintedAlert}
+/>
 <form method="POST" use:enhance class="flex w-96 flex-col items-center gap-4 px-4">
 	<Form.Field {form} name="type"><TypeInput /></Form.Field>
 

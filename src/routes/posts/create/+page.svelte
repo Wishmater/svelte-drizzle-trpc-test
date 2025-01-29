@@ -8,6 +8,7 @@
 	import * as Form from '$lib/client/components/ui/form/index.js';
 	import { Textarea } from '$lib/client/components/ui/textarea';
 	import { disableConstraints } from '$lib/client/util/forms';
+	import SimpleAlertDialog from '$lib/client/widgets/simple_alert_dialog.svelte';
 
 	interface Props {
 		data: PageData;
@@ -15,19 +16,27 @@
 	let { data }: Props = $props();
 
 	const form = superForm(data.form, {
-		validators: valibotClient(PostInsertSchema)
+		validators: valibotClient(PostInsertSchema),
+		taintedMessage: () => showTaintedAlert()
 	});
 	const { form: formData, constraints, errors, enhance, delayed, timeout, capture, restore } = form;
 
 	export const snapshot = { capture, restore }; // SvelteKit magic for restoring state to the page after navigation
 
 	disableConstraints($constraints); // remove constraints on hydration, to show prettier JS errors. While JS is loading, html constraints still work
+
+	let showTaintedAlert: () => Promise<boolean> = $state(null!);
 </script>
 
 <svelte:head>
 	<title>Create User - SvelteKit Demo</title>
 </svelte:head>
 
+<SimpleAlertDialog
+	title="Are you sure you want to leave the form?"
+	subtitle="Your changes may be lost."
+	bind:showAlert={showTaintedAlert}
+/>
 <form method="POST" use:enhance class="flex w-96 flex-col items-center">
 	<Form.Field {form} name="content">
 		<Form.Control>

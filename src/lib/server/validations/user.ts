@@ -1,6 +1,7 @@
 import * as v from 'valibot';
 import { UserInsertSchema } from '$lib/common/validations/user';
 import { db } from '$lib/server/db/db';
+import type { UserType } from '$lib/common/enums/user_types';
 
 export const UserInsertSchemaBackend = v.pipeAsync(
 	UserInsertSchema,
@@ -29,3 +30,8 @@ export const UserInsertSchemaBackend = v.pipeAsync(
 		['email']
 	)
 );
+
+export const userDefaults = v.getDefaults(UserInsertSchema) as unknown as v.InferOutput<
+	typeof UserInsertSchema
+>;
+userDefaults.type = '' as unknown as UserType; // select fields need to be set as empty string, or they will insta-taint the form
