@@ -7,6 +7,7 @@
 	import { checkForServerToastMessage } from '$lib/client/util/toast_message';
 	import { route } from '$lib/ROUTES';
 	import * as Tooltip from '$lib/client/components/ui/tooltip/index.js';
+	import { ProgressBar } from '@prgm/sveltekit-progress-bar';
 
 	let { children } = $props();
 
@@ -22,6 +23,7 @@
 
 <ModeWatcher />
 <Toaster />
+<ProgressBar class="text-primary" />
 <Tooltip.Provider delayDuration={0}>
 	<div class="flex min-h-screen flex-col items-center bg-background font-sans">
 		<header

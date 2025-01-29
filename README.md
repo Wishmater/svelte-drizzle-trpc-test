@@ -106,6 +106,9 @@ Type inference (its main sale point) is buggy and hard to implement.
 ### [Svelte](https://svelte.dev/docs/svelte/overview) (mandatory)
 Best frontend JS framework by far, and also integrates with SvelteKit, of course.
 
+### [SveltekitProgressBar](https://github.com/prgm-dev/sveltekit-progress-bar) (mandatory)
+Really easy to set up and gives user feedback when loading is taking a long time on bad connections.
+
 ### [SuperForms](https://superforms.rocks/) (optional*)
 Mandatory if the app needs complex forms. Helps automate most of the state management and communication of a form, and integrates super nicely with SvelteKit and Valibot (check example).
 <br>Make sure to check out the example and implement all features properly, this includes:
