@@ -21,10 +21,7 @@ export const postsQuery = db.query.posts
 				with: {
 					tags: true
 				},
-				where: (t, op) => {
-					const tagId = placeholder('tagId');
-					return op.or(op.isNull(tagId), op.eq(t.tagId, tagId));
-				}
+				orderBy: (t, { asc }) => asc(t.tagId)
 			}
 		},
 		where: (t, op) => {

@@ -1,9 +1,9 @@
-# Introduction
+## Introduction
 
 Collection of our preferred libraries / tools to use with SvelteKit for building web apps.
 
 
-# Developing
+## Developing
 
 To run the project locally:
 ```bash
@@ -11,7 +11,7 @@ npm run dev
 ```
 
 
-# Building
+## Building
 
 To create a production version of your app:
 
@@ -24,7 +24,7 @@ node build
 ```
 
 ---
-# Technologies / Tools used
+## Technologies / Tools used
 
 
 ## Language / DevTools
@@ -125,23 +125,23 @@ Tailwind = good.
 Easily use icons from https://heroicons.com/, without having to copy-paste them.
 <br>If using shadcn, use [lucide-svelte](https://lucide.dev/icons/) instead, since it's already used by shadcn.
 
-### Some higher level library on top of tailwind (optional)
+## Some higher level library on top of tailwind (optional)
 The UI can be built with html / tailwind alone, but it's often useful to have higher level components, especially since we dont have designers.
 
-#### [ShadCN](https://www.shadcn-svelte.com/)
+### [ShadCN](https://www.shadcn-svelte.com/)
 If using Svelte 5, make sure to use https://next.shadcn-svelte.com instead. Really good so far, has both simple components like buttons with understandable code that can be customized, and complicated components that save a lot of work. Has good integrations with Svelte and Superforms. The only negative so far is that it imports a lot of libs, some of them decently heavy, we need to keep track of this.
 
-#### [Flowbite](https://flowbite-svelte.com/)
+### [Flowbite](https://flowbite-svelte.com/)
 Untested. Seems to have more variety of high level components than shadcn, otherwise I don't see the merit.
 
-#### [Material-Tailwind](https://www.material-tailwind.com/docs/html/installation) (MEH)
+### [Material-Tailwind](https://www.material-tailwind.com/docs/html/installation) (MEH)
 Headless tailwind components. The only sane way to use it is to create our own Svelte components from it and use them.
 <br>The main issue is that each component requires to import JS (even for things that can be done without JS), some components can be used, but it doesn't really work as a main UI lib as well as chadCN does.
 
-#### [SkeletonUI](https://www.skeleton.dev/) (NO)
+### [SkeletonUI](https://www.skeleton.dev/) (NO)
 Fide says NO.
 
-#### [DaisyUI](https://daisyui.com/) (NO)
+### [DaisyUI](https://daisyui.com/) (NO)
 Trying to do high complexity components is even discouraged in the tailwind documentation itself.
 Daisy often interferes with vanilla tailwind and makes it so you can't copy/paste tailwind code without it breaking.
 Ideally, we want a library that declares Svelte components, or headless tailwind components to create our own.
@@ -165,9 +165,10 @@ After hydration, listen to errors, log them, and in case of connection errors, s
 ---
 # Now:
 - Drizzle ORM relations. 
-  - Add tags to post, backend should create only relations.
-  - Add some kind of fully dependant relation (that should be created/destroyed with its parent)
-- Easily using search params to store state (to test, do users page options to show all, only admin, or only guests).
+  - Add some kind of fully dependant relation (that should be created/destroyed with its parent). It should also be a dynamic form.
+  - Implement query to optionally filter posts by user and tag.
+- Implement an async shadcn combobox (probably with an API endpoint). Use it for user select in posts query filters.
+- Easily using search params to store state. To test, add options to posts page to filter by user or by tag.
 - Implement auth with cookies sessions, include logging user, and sending user data to frontend via load(). User data will be passed around in locals.user once loaded in logging middleware.
 - (PARTIALLY IMPLEMENTED) Easily using cookies to store persistent state. To test, do one that changes.
 - More shadcn components

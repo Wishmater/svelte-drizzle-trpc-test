@@ -10,8 +10,10 @@ import * as v from 'valibot';
 import { logger } from '$lib/common/logging';
 import { type ToastMessage } from '$lib/common/util/toast_message';
 import { redirectWithMessage } from '$lib/server/util/toast_message';
+import { postTags } from '$lib/server/db/schema/tag';
 
 export const load = (async () => {
+	const tags = db.query.tags.findMany();
 	const form = await superValidate(
 		{
 			authorId: 1 // TODO 1 initialize with logged in user id (waiting for auth implementation)
@@ -22,7 +24,8 @@ export const load = (async () => {
 		}
 	);
 	return {
-		form
+		form,
+		tags
 	};
 }) satisfies PageServerLoad;
 
@@ -35,7 +38,12 @@ export const actions = {
 		// TODO 3 we should validate that the post author is the same as logged in user (should be easy with an async val)
 
 		console.log(form.data);
-		await db.insert(posts).values(form.data).execute();
+		const post = (await db.insert(posts).values(form.data).returning().execute())[0];
+		// need to await the post insertion to get the id
+		const tagsInsertData = form.data.tags.map((e) => {
+			return { postId: post.id, tagId: e.id };
+		});
+		await db.insert(postTags).values(tagsInsertData);
 
 		const message: ToastMessage = {
 			type: 'success',

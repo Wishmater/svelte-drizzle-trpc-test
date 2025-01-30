@@ -14,3 +14,6 @@ export const TagInsertSchema = v.omit(TagSchema, [
 	'id',
 	'createdAt'
 ]) satisfies v.GenericSchema<TagInsert>;
+
+export const TagMinimalSchema = v.pick(TagSchema, ['id', 'name']);
+export type TagMinimal = v.InferOutput<typeof TagMinimalSchema>;

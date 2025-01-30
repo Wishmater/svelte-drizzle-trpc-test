@@ -36,9 +36,21 @@
 				<div class="flex flex-row items-center">
 					{@render deleteButton(post)}
 
-					{post.author.username} - {post.createdAt.toLocaleString(undefined, {})}
+					<div class="flex flex-col">
+						{post.author.username} - {post.createdAt.toLocaleString(undefined, {})}
 
-					<br />{post.content}
+						<br />{post.content}
+
+						{#if post.postTags}
+							<div class="flex flex-wrap gap-x-2 gap-y-1">
+								{#each post.postTags as tag}
+									<div class="rounded-full border-2 px-2 py-0.5">
+										{tag.tags.name}
+									</div>
+								{/each}
+							</div>
+						{/if}
+					</div>
 				</div>
 			{/each}
 		{:catch _}

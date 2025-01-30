@@ -15,6 +15,7 @@ import { eq } from 'drizzle-orm';
 
 export const load = (async (event) => {
 	// TODO 1 get userId and tagId from query params
+	console.log(postsQuery.getQuery().sql);
 	const posts = postsQuery.execute({
 		userId: null,
 		tagId: null

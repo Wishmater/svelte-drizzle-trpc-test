@@ -9,6 +9,7 @@
 	import { Textarea } from '$lib/client/components/ui/textarea';
 	import { disableConstraints } from '$lib/client/util/forms';
 	import SimpleAlertDialog from '$lib/client/widgets/simple_alert_dialog.svelte';
+	import TagsInput from '$lib/client/forms/post/tags_input.svelte';
 
 	interface Props {
 		data: PageData;
@@ -17,7 +18,8 @@
 
 	const form = superForm(data.form, {
 		validators: valibotClient(PostInsertSchema),
-		taintedMessage: () => showTaintedAlert()
+		taintedMessage: () => showTaintedAlert(),
+		dataType: 'json'
 	});
 	const { form: formData, constraints, errors, enhance, delayed, timeout, capture, restore } = form;
 
@@ -37,7 +39,9 @@
 	subtitle="Your changes may be lost."
 	bind:showAlert={showTaintedAlert}
 />
-<form method="POST" use:enhance class="flex w-96 flex-col items-center">
+<form method="POST" use:enhance class="flex w-96 flex-col items-center gap-4 px-4">
+	<input type="hidden" name="authorId" bind:value={$formData.authorId} />
+
 	<Form.Field {form} name="content">
 		<Form.Control>
 			{#snippet children({ props })}
@@ -49,7 +53,7 @@
 		<Form.FieldErrors />
 	</Form.Field>
 
-	<input type="hidden" name="authorId" bind:value={$formData.authorId} />
+	<Form.Field {form} name="tags"><TagsInput itemsPromise={data.tags} /></Form.Field>
 
 	<div class="mt-8">
 		{#if $delayed && !$timeout}
