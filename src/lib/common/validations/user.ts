@@ -14,7 +14,14 @@ export const UserSchema = v.object({
 	active: v.boolean(),
 	type: v.picklist(userTypes),
 	selectedDate: v.nullable(v.date(), null),
-	createdAt: v.date()
+	createdAt: v.date(),
+	avatar: v.optional(
+		v.pipe(
+			v.file(),
+			v.mimeType(['image/jpeg', 'image/png'], 'Please select a JPEG or PNG file.'),
+			v.maxSize(1024 * 1024 * 10, 'Please select a file smaller than 10 MB.')
+		)
+	)
 }) satisfies v.GenericSchema<User>;
 
 export const UserInsertSchema = v.omit(UserSchema, [

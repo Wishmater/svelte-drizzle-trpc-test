@@ -1,5 +1,8 @@
 node_modules
 
+# Uploads
+/static/user_avatars/*
+
 # Output
 .output
 .vercel

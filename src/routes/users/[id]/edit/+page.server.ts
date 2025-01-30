@@ -4,7 +4,7 @@ import { UserUpdateSchema } from '$lib/common/validations/user';
 import { valibot } from 'sveltekit-superforms/adapters';
 import { error, fail } from '@sveltejs/kit';
 import { db } from '$lib/server/db/db';
-import { users } from '$lib/server/db/schema/user';
+import { type User, users } from '$lib/server/db/schema/user';
 import { IntegerRouteParam } from '$lib/server/validations/_route_params';
 import { route } from '$lib/ROUTES';
 import * as v from 'valibot';
@@ -12,6 +12,9 @@ import { logger } from '$lib/common/logging';
 import { eq } from 'drizzle-orm';
 import { type ToastMessage } from '$lib/common/util/toast_message';
 import { redirectWithMessage } from '$lib/server/util/toast_message';
+import { dev } from '$app/environment';
+import { writeFile } from '$lib/server/util/files';
+import { userAvatarsDir } from '../../../../hooks.server';
 
 export const load = (async ({ params }) => {
 	const id = v.safeParse(IntegerRouteParam, params.id);
@@ -44,16 +47,26 @@ export const actions = {
 			return fail(422, { form });
 		}
 
-		await new Promise((resolve) => setTimeout(resolve, 2000));
-		const result = await db
+		let result: User[] | undefined;
+		const dbQuery = db
 			.update(users)
 			.set(form.data)
 			.where(eq(users.id, id.output))
 			.returning()
 			.execute();
+		let fileWrite: Promise<any> | undefined;
+		if (form.data.avatar) {
+			fileWrite = writeFile(`${userAvatarsDir}/${id.output}.png`, form.data.avatar);
+		}
+		if (fileWrite) {
+			result = (await Promise.all([dbQuery, fileWrite]))[0];
+		} else {
+			result = await dbQuery;
+		}
+
 		const message: ToastMessage = {
 			type: 'success',
-			message: `User "${result[0].username}" edited successfully.`
+			message: `User "${result![0].username}" edited successfully.`
 		};
 		logger.log({
 			level: 'trace',

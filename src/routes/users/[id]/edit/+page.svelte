@@ -12,6 +12,7 @@
 	import * as Form from '$lib/client/components/ui/form/index.js';
 	import { Switch } from '$lib/client/components/ui/switch';
 	import SimpleAlertDialog from '$lib/client/widgets/simple_alert_dialog.svelte';
+	import { Input } from '$lib/client/components/ui/input';
 
 	interface Props {
 		data: PageData;
@@ -40,7 +41,12 @@
 	subtitle="Your changes may be lost."
 	bind:showAlert={showTaintedAlert}
 />
-<form method="POST" use:enhance class="flex w-96 flex-col items-center gap-4 px-4">
+<form
+	method="POST"
+	enctype="multipart/form-data"
+	use:enhance
+	class="flex w-96 flex-col items-center gap-4 px-4"
+>
 	<Form.Field {form} name="type"><TypeInput /></Form.Field>
 
 	<Form.Field {form} name="active">
@@ -58,6 +64,21 @@
 	<Form.Field {form} name="age"><AgeInput /></Form.Field>
 
 	<Form.Field {form} name="selectedDate"><SelectedDateInput /></Form.Field>
+
+	<Form.Field {form} name="avatar">
+		<Form.Control>
+			{#snippet children({ props })}
+				<Form.Label>Avatar</Form.Label>
+				<Input
+					{...props}
+					type="file"
+					oninput={(e) => ($formData.avatar = e.currentTarget.files?.item(0) as File)}
+					{...$constraints?.avatar}
+				/>
+			{/snippet}
+		</Form.Control>
+		<Form.FieldErrors />
+	</Form.Field>
 
 	<div class="mt-8">
 		{#if $delayed}

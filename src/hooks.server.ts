@@ -1,25 +1,34 @@
 import { initLogger } from '$lib/server/logging';
-import type { Handle, HandleServerError, RequestEvent } from '@sveltejs/kit';
+import type { Handle, HandleServerError, RequestEvent, ServerInit } from '@sveltejs/kit';
 import { logger } from '$lib/common/logging';
 import { sequence } from '@sveltejs/kit/hooks';
 import { db } from '$lib/server/db/db';
 import { users } from '$lib/server/db/schema/user';
+import * as fs from 'node:fs';
+import { dev } from '$app/environment';
 
 initLogger();
 
-// TODO find a better way to do db data initialization
-if ((await db.$count(users)) == 0) {
-	await db
-		.insert(users)
-		.values({
-			username: 'admin',
-			password: 'admin.123',
-			email: 'admin@fromzero.com',
-			age: 69420,
-			type: 'Admin'
-		})
-		.execute();
-}
+export const userAvatarsDir = dev ? './static/user_avatars' : './user_avatars';
+
+export const init: ServerInit = async () => {
+	if (!fs.existsSync(userAvatarsDir)) {
+		fs.mkdirSync(userAvatarsDir);
+	}
+	// TODO 2 find a better way to do db data initialization
+	if ((await db.$count(users)) == 0) {
+		await db
+			.insert(users)
+			.values({
+				username: 'admin',
+				password: 'admin.123',
+				email: 'admin@fromzero.com',
+				age: 69420,
+				type: 'Admin'
+			})
+			.execute();
+	}
+};
 
 const loggerMiddleware: Handle = async ({ event, resolve }) => {
 	event.locals.startTimer = performance.now();
@@ -69,10 +78,10 @@ function log({ status, errorMessage = undefined, event, response = undefined, er
 	const isApi = event.request.method != 'GET';
 	// TODO 1 API validation errors are being logged as 200, can't figure out an easy way to distinguish them
 	logger.log({
-		level: 'info',
+		level: status >= 500 ? 'error' : status >= 400 ? 'warn' : 'info',
 		message: `${isApi ? 'API ' : ''}RESPONSE ${status} ${method} ${path}${errorMessage ? ` ${errorMessage}` : ''}`,
 		type: isApi ? 'ServerResponse' : 'ServerAPIResponse',
-		error: error,
+		error: status >= 500 ? error : undefined,
 		extra: {
 			method: method,
 			status: status,

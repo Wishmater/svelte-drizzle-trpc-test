@@ -164,11 +164,10 @@ After hydration, listen to errors, log them, and in case of connection errors, s
 
 ---
 # Now:
-- Drizzle ORM relations.
-- Implement page transitions. Write about it in readme.
-- (PARTIALLY IMPLEMENTED) Easily using cookies to store persistent state. To test, do one that changes.
+- Drizzle ORM relations. 
+  - Add tags to post, backend should create only relations.
+  - Add some kind of fully dependant relation (that should be created/destroyed with its parent)
 - Easily using search params to store state (to test, do users page options to show all, only admin, or only guests).
 - Implement auth with cookies sessions, include logging user, and sending user data to frontend via load(). User data will be passed around in locals.user once loaded in logging middleware.
-- Auth. With cookies / sessions
-- Shadcn Superforms component library https://www.formsnap.dev/docs
+- (PARTIALLY IMPLEMENTED) Easily using cookies to store persistent state. To test, do one that changes.
 - More shadcn components

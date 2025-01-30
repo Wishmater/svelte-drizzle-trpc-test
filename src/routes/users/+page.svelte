@@ -5,6 +5,7 @@
 	import Pencil from 'lucide-svelte/icons/pencil';
 	import type { User } from '$lib/server/db/schema/user';
 	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
+	import * as Avatar from '$lib/client/components/ui/avatar/index.js';
 
 	interface Props {
 		data: PageData;
@@ -40,9 +41,17 @@
 		{:then users}
 			{#each users as user}
 				<div class="flex flex-row items-center">
+					<Avatar.Root class="h-7 w-7">
+						<Avatar.Image src="/user_avatars/{user.id}.png" alt={user.username} />
+						<Avatar.Fallback class="text-sm"
+							>{user.username.slice(0, 2).toUpperCase()}</Avatar.Fallback
+						>
+					</Avatar.Root>
+
 					<Button href={getUserEditRoute(user)} variant="ghost" size="icon">
 						<Pencil />
 					</Button>
+
 					{user.username}: {user.email}
 				</div>
 			{/each}
