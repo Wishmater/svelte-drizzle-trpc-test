@@ -9,7 +9,7 @@ import { dev } from '$app/environment';
 
 initLogger();
 
-export const userAvatarsDir = dev ? './static/user_avatars' : './user_avatars';
+export const userAvatarsDir = dev ? './static/user_avatars' : './client/user_avatars';
 
 export const init: ServerInit = async () => {
 	if (!fs.existsSync(userAvatarsDir)) {

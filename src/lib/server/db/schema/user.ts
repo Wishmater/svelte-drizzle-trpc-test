@@ -3,6 +3,8 @@ import { createInsertSchema, createSelectSchema, createUpdateSchema } from 'driz
 import * as v from 'valibot';
 import { userTypes } from '../../../common/enums/user_types'; // using $lib breaks drizzle-kit :((
 import { timestampColumns } from '../util';
+import { relations } from 'drizzle-orm';
+import { posts } from '$lib/server/db/schema/post';
 
 // Drizzle ORM schema declaration useful links:
 // https://orm.drizzle.team/docs/sql-schema-declaration
@@ -21,6 +23,10 @@ export const users = sqliteTable('user', {
 	selectedDate: integer({ mode: 'timestamp' }).$type<Date>(),
 	...timestampColumns
 });
+
+export const usersRelations = relations(users, ({ many }) => ({
+	posts: many(posts)
+}));
 
 // Create Valibot schema from DB declaration:
 // https://orm.drizzle.team/docs/valibot

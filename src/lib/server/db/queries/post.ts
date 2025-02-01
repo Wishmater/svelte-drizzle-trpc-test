@@ -24,9 +24,9 @@ export const postsQuery = db.query.posts
 				orderBy: (t, { asc }) => asc(t.tagId)
 			}
 		},
-		where: (t, op) => {
+		where: (t, { or, isNull, eq }) => {
 			const userId = placeholder('userId');
-			return op.or(op.isNull(userId), op.eq(t.authorId, userId));
+			return or(isNull(userId), eq(t.authorId, userId));
 		},
 		// where: (t, op) => {
 		// 	const userId = placeholder('userId');
