@@ -49,9 +49,9 @@ export const handleError: HandleServerError = async ({ error, event, status, mes
 	log({
 		status: status,
 		event: event,
-		response: event.locals.response,
 		errorMessage: message,
-		error: error
+		error: error,
+		response: undefined
 	});
 	return {
 		status,

@@ -4,7 +4,6 @@ declare global {
 	namespace App {
 		interface Locals {
 			startTimer: number;
-			response: Response | undefined;
 		}
 		// interface Error {}
 		// interface PageData {}
