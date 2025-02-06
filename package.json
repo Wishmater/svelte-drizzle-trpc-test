@@ -28,7 +28,7 @@
 		"prettier": "^3.3.2",
 		"prettier-plugin-svelte": "^3.2.6",
 		"prettier-plugin-tailwindcss": "^0.6.5",
-		"loggerjs": "github:FromZeroDev/loggerjs#cb7920e720903f3b0ee6c28d40ee06d3d2380ef8",
+		"loggerjs": "github:FromZeroDev/loggerjs#996daa827d94693a08e59c88ba1ad49d43126614",
 
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^4.0.0",

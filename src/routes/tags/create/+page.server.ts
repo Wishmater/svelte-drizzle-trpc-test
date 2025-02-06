@@ -4,7 +4,7 @@ import { TagInsertSchema } from '$lib/common/validations/tag';
 import { valibot } from 'sveltekit-superforms/adapters';
 import { fail } from '@sveltejs/kit';
 import { db } from '$lib/server/db/db';
-import { tags } from '$lib/server/db/schema/tag';
+import { tagDetails, type TagDetailsInsert, tags } from '$lib/server/db/schema/tag';
 import { route } from '$lib/ROUTES';
 import * as v from 'valibot';
 import { logger } from '$lib/common/logging';
@@ -12,7 +12,15 @@ import { type ToastMessage } from '$lib/common/util/toast_message';
 import { redirectWithMessage } from '$lib/server/util/toast_message';
 
 export const load = (async () => {
-	const form = await superValidate(valibot(TagInsertSchema));
+	const form = await superValidate(
+		{
+			details: [{}]
+		},
+		valibot(TagInsertSchema),
+		{
+			errors: false
+		}
+	);
 	return {
 		form
 	};
@@ -26,6 +34,10 @@ export const actions = {
 		}
 
 		const result = await db.insert(tags).values(form.data).returning().execute();
+		const tagsDetailsData = form.data.details.map((e): TagDetailsInsert => {
+			return { tagId: result[0].id, ...e };
+		});
+		await db.insert(tagDetails).values(tagsDetailsData).execute();
 
 		const message: ToastMessage = {
 			type: 'success',

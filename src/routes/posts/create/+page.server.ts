@@ -43,7 +43,7 @@ export const actions = {
 		const tagsInsertData = form.data.tags.map((e) => {
 			return { postId: post.id, tagId: e.id };
 		});
-		await db.insert(postTags).values(tagsInsertData);
+		await db.insert(postTags).values(tagsInsertData).execute();
 
 		const message: ToastMessage = {
 			type: 'success',

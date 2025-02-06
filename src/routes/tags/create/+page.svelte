@@ -9,6 +9,10 @@
 	import { Input } from '$lib/client/components/ui/input';
 	import { disableConstraints } from '$lib/client/util/forms';
 	import SimpleAlertDialog from '$lib/client/widgets/simple_alert_dialog.svelte';
+	import { Button } from '$lib/client/components/ui/button';
+	import Delete from 'lucide-svelte/icons/trash';
+	import Add from 'lucide-svelte/icons/plus';
+	import * as Card from '$lib/client/components/ui/card/index.js';
 
 	interface Props {
 		data: PageData;
@@ -17,7 +21,8 @@
 
 	const form = superForm(data.form, {
 		validators: valibotClient(TagInsertSchema),
-		taintedMessage: () => showTaintedAlert()
+		taintedMessage: () => showTaintedAlert(),
+		dataType: 'json'
 	});
 	const { form: formData, constraints, errors, enhance, delayed, timeout, capture, restore } = form;
 
@@ -37,7 +42,7 @@
 	subtitle="Your changes may be lost."
 	bind:showAlert={showTaintedAlert}
 />
-<form method="POST" use:enhance class="flex w-96 flex-col items-center">
+<form method="POST" dataType="json" use:enhance class="flex w-96 flex-col items-center gap-4 px-4">
 	<Form.Field {form} name="name">
 		<Form.Control>
 			{#snippet children({ props })}
@@ -51,14 +56,75 @@
 		<Form.FieldErrors />
 	</Form.Field>
 
-	<div class="mt-8">
+	<Form.Fieldset {form} name="details">
+		<Card.Root>
+			<Card.Header>
+				<Form.Legend>
+					<Card.Title class="text-lg">Tag Details</Card.Title>
+				</Form.Legend>
+				<Form.Description class="!pl-0">
+					<Card.Description>
+						Made up field to demonstrate fully dependant object list relation.
+					</Card.Description>
+				</Form.Description>
+			</Card.Header>
+			<Card.Content>
+				{#each $formData.details as _, i}
+					<Form.ElementField {form} name="details[{i}]">
+						<Form.Control>
+							{#snippet children({ props })}
+								<div class="flex flex-row items-end gap-2 py-2">
+									<div>
+										<Form.Label>Detail Num</Form.Label>
+										<Input
+											{...props}
+											type="number"
+											bind:value={$formData.details[i].detailNumber}
+											{...$constraints?.details?.detailNumber}
+										/>
+									</div>
+									<div>
+										<Form.Label>Detail Text</Form.Label>
+										<Input
+											{...props}
+											bind:value={$formData.details[i].detailText}
+											{...$constraints?.details?.detailText}
+										/>
+									</div>
+									<Button
+										variant="destructive"
+										size="icon"
+										class="flex-none"
+										onclick={() => ($formData.details = $formData.details.toSpliced(i, 1))}
+									>
+										<Delete />
+									</Button>
+								</div>
+							{/snippet}
+						</Form.Control>
+					</Form.ElementField>
+				{/each}
+			</Card.Content>
+			<Card.Footer>
+				<Form.FieldErrors />
+				<Button
+					variant="secondary"
+					onclick={() => ($formData.details = [...$formData.details, {}])}
+				>
+					<Add /> Add details entry
+				</Button>
+			</Card.Footer>
+		</Card.Root>
+	</Form.Fieldset>
+
+	<div class="mt-8 w-full">
 		{#if $delayed && !$timeout}
-			<Form.Button disabled>
+			<Form.Button class="w-full" disabled>
 				<LoaderCircle size={34} class="animate-spin"></LoaderCircle>
 				Create Tag
 			</Form.Button>
 		{:else}
-			<Form.Button>Create Tag</Form.Button>
+			<Form.Button class="w-full">Create Tag</Form.Button>
 		{/if}
 	</div>
 </form>

@@ -130,6 +130,13 @@ The UI can be built with html / tailwind alone, but it's often useful to have hi
 
 ### [ShadCN](https://www.shadcn-svelte.com/)
 If using Svelte 5, make sure to use https://next.shadcn-svelte.com instead. Really good so far, has both simple components like buttons with understandable code that can be customized, and complicated components that save a lot of work. Has good integrations with Svelte and Superforms. The only negative so far is that it imports a lot of libs, some of them decently heavy, we need to keep track of this.
+<br>Useful links:
+<br> Theming:
+<br>   https://next.shadcn-svelte.com/docs/theming
+<br>   https://next.shadcn-svelte.com/themes
+<br> Theme generators:
+<br>   https://zippystarter.com/tools/shadcn-ui-theme-generator
+<br>   https://shadesigner.com/
 
 ### [Flowbite](https://flowbite-svelte.com/)
 Untested. Seems to have more variety of high level components than shadcn, otherwise I don't see the merit.

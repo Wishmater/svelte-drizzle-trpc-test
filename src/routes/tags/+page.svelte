@@ -30,6 +30,16 @@
 			{#each tags as tag}
 				<div class="py-2">
 					{tag.name}
+					{#each tag.details as details}
+						<div class="border pl-3">
+							{#if details.detailNumber}
+								num: {details.detailNumber}
+							{/if}
+							{#if details.detailText}
+								text: {details.detailText}
+							{/if}
+						</div>
+					{/each}
 				</div>
 			{/each}
 		{:catch _}
