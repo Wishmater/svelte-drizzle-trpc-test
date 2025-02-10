@@ -12,6 +12,7 @@
 	import { TagMinimalSchema } from '$lib/common/validations/tag';
 	import { objectDecoder } from '$lib/client/validations/query_params';
 	import type { QueryParams } from './+page.server';
+	import { UserMinimalSchema } from '$lib/common/validations/user';
 
 	export let data: PageData;
 
@@ -20,8 +21,8 @@
 
 	const queryParams = queryParameters({
 		tag: objectDecoder(TagMinimalSchema),
-		user: ssp.object()
-	}); // TODO 1 find a clever way to validate that the type of queryParams is the same here and in backend. We can't just declare satisfies QueryParams...
+		user: objectDecoder(UserMinimalSchema)
+	});
 
 	function onTagFilterSelected(value: string) {
 		const id = Number(value);

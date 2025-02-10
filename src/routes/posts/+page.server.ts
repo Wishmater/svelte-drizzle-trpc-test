@@ -49,14 +49,16 @@ export const load = (async ({ url }) => {
 			});
 		});
 	}
-	const tags = db.query.tags
-		.findMany({
-			columns: {
-				id: true,
-				name: true
-			}
-		})
-		.execute();
+	const tags = new Promise((resolve) => setTimeout(resolve, 2000)).then(() => {
+		return db.query.tags
+			.findMany({
+				columns: {
+					id: true,
+					name: true
+				}
+			})
+			.execute();
+	});
 	return {
 		posts,
 		tags
