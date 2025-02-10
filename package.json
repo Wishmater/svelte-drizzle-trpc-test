@@ -43,6 +43,7 @@
 		"valibot": "^1.0.0-beta.11",
 		"@valibot/i18n": "^1.0.0-beta.2",
 		"drizzle-valibot": "0.3.0",
+		"sveltekit-search-params":  "^3.0.0",
 
 		"svelte": "^5.0.0",
 		"svelte-check": "^4.0.0",

@@ -1,14 +1,38 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import { route } from '$lib/ROUTES';
-	import { Button } from '$lib/client/components/ui/button';
-	import type { Post } from '$lib/server/db/schema/post';
-	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
-	import Delete from 'lucide-svelte/icons/trash';
+	import * as Select from '$lib/client/components/ui/select/index.js';
 	import * as Tooltip from '$lib/client/components/ui/tooltip/index.js';
 	import * as AlertDialog from '$lib/client/components/ui/alert-dialog/index.js';
+	import { route } from '$lib/ROUTES';
+	import { Button } from '$lib/client/components/ui/button';
+	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
+	import Delete from 'lucide-svelte/icons/trash';
+	import Close from 'lucide-svelte/icons/x';
+	import { ssp, queryParameters } from 'sveltekit-search-params';
+	import { TagMinimalSchema } from '$lib/common/validations/tag';
+	import { objectDecoder } from '$lib/client/validations/query_params';
+	import type { QueryParams } from './+page.server';
 
 	export let data: PageData;
+
+	let awaitedTags: Awaited<typeof data.tags>;
+	data.tags.then((e) => (awaitedTags = e));
+
+	const queryParams = queryParameters({
+		tag: objectDecoder(TagMinimalSchema),
+		user: ssp.object()
+	}); // TODO 1 find a clever way to validate that the type of queryParams is the same here and in backend. We can't just declare satisfies QueryParams...
+
+	function onTagFilterSelected(value: string) {
+		console.log(value);
+		const id = Number(value);
+		const tag = awaitedTags.find((e) => e.id == id) ?? null;
+		if (tag && tag.id == $queryParams.tag?.id) {
+			$queryParams.tag = null;
+		} else {
+			$queryParams.tag = tag;
+		}
+	}
 </script>
 
 <svelte:head>
@@ -19,10 +43,37 @@
 	<div class="w-[512px]">
 		<div class="flex flex-row items-center justify-between">
 			<div>
-				<br />
-				<br />
 				Posts Page
 				<br />
+				<br />
+				<div class="flex flex-row">
+					<Select.Root
+						type="single"
+						value={$queryParams.tag?.id.toString()}
+						onValueChange={onTagFilterSelected}
+					>
+						<Select.Trigger class="w-40">
+							{$queryParams.tag ? $queryParams.tag.name : 'Filter by tag...'}
+						</Select.Trigger>
+						<Select.Content>
+							{#await data.tags}
+								<LoaderCircle size={34} class="animate-spin"></LoaderCircle>
+								Loading tags...
+							{:then tags}
+								{#each tags as tag}
+									<Select.Item value={tag.id.toString()} label={tag.name} />
+								{/each}
+							{:catch _}
+								Error !!!
+							{/await}
+						</Select.Content>
+					</Select.Root>
+					{#if $queryParams.tag}
+						<Button variant="ghost" size="icon" onclick={() => ($queryParams.tag = null)}>
+							<Close />
+						</Button>
+					{/if}
+				</div>
 				<br />
 			</div>
 			<Button href={route('/posts/create')}>Create Post</Button>
