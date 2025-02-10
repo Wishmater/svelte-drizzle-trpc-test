@@ -16,9 +16,10 @@
 
 	export let data: PageData;
 
+	type TagData = Awaited<typeof data.posts>[number];
 	type PostData = Awaited<typeof data.posts>[number];
 
-	let awaitedTags: PostData[];
+	let awaitedTags: TagData[];
 	data.tags.then((e) => (awaitedTags = e));
 
 	const queryParams = queryParameters({
