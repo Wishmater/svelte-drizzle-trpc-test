@@ -26,7 +26,6 @@
 	let open = $state(false);
 
 	function onOpenChange(isOpen: boolean, isSubmit = false) {
-		console.log('isOpen', isOpen);
 		open = isOpen;
 		if (isOpen) return; // we only care about close
 		if (completer) {

@@ -24,7 +24,6 @@
 	}); // TODO 1 find a clever way to validate that the type of queryParams is the same here and in backend. We can't just declare satisfies QueryParams...
 
 	function onTagFilterSelected(value: string) {
-		console.log(value);
 		const id = Number(value);
 		const tag = awaitedTags.find((e) => e.id == id) ?? null;
 		if (tag && tag.id == $queryParams.tag?.id) {

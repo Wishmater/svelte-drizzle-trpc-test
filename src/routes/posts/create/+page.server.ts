@@ -37,7 +37,6 @@ export const actions = {
 		}
 		// TODO 3 we should validate that the post author is the same as logged in user (should be easy with an async val)
 
-		console.log(form.data);
 		const post = (await db.insert(posts).values(form.data).returning().execute())[0];
 		// need to await the post insertion to get the id
 		const tagsInsertData = form.data.tags.map((e) => {
