@@ -1,6 +1,6 @@
 import { drizzle } from 'drizzle-orm/libsql';
 import { createClient } from '@libsql/client';
-import { env } from '$env/dynamic/private'; // importing $env doesn't work with drizzle-kit, so we must use node .env :((
+import { env } from '$env/dynamic/private';
 import * as userSchema from './schema/user';
 import * as postSchema from './schema/post';
 import * as tagSchema from './schema/tag';
