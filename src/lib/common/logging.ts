@@ -19,8 +19,9 @@ export function setLogger(newLogger: Logger) {
 
 const devMinLevel = 'trace';
 const devScopes: Scope[] = [
-	{ type: 'ServerResponse', level: 'trace' },
-	{ type: 'ServerAPIResponse', level: 'trace' }
+	{ type: 'ServerHtmlResponse', level: 'trace' },
+	{ type: 'ServerAPIResponse', level: 'trace' },
+	{ type: 'ServerSvelteKitResponse', level: 'trace' }
 ];
 
 export function initLoggerDev() {

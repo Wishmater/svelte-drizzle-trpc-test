@@ -25,12 +25,7 @@
 
 	function onTagFilterSelected(value: string) {
 		const id = Number(value);
-		const tag = awaitedTags.find((e) => e.id == id) ?? null;
-		if (tag && tag.id == $queryParams.tag?.id) {
-			$queryParams.tag = null;
-		} else {
-			$queryParams.tag = tag;
-		}
+		queryParams.tag = awaitedTags.find((e) => e.id == id) ?? null;
 	}
 </script>
 
@@ -48,11 +43,11 @@
 				<div class="flex flex-row">
 					<Select.Root
 						type="single"
-						value={$queryParams.tag?.id.toString()}
+						value={queryParams.tag?.id.toString()}
 						onValueChange={onTagFilterSelected}
 					>
 						<Select.Trigger class="w-40">
-							{$queryParams.tag ? $queryParams.tag.name : 'Filter by tag...'}
+							{queryParams.tag ? queryParams.tag.name : 'Filter by tag...'}
 						</Select.Trigger>
 						<Select.Content>
 							{#await data.tags}
@@ -67,8 +62,8 @@
 							{/await}
 						</Select.Content>
 					</Select.Root>
-					{#if $queryParams.tag}
-						<Button variant="ghost" size="icon" onclick={() => ($queryParams.tag = null)}>
+					{#if queryParams.tag}
+						<Button variant="ghost" size="icon" onclick={() => (queryParams.tag = null)}>
 							<Close />
 						</Button>
 					{/if}

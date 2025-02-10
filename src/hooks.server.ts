@@ -75,12 +75,27 @@ function log({ status, errorMessage = undefined, event, response = undefined, er
 	const responseSize = parseInt(
 		response?.headers.get('content-length') ?? errorMessage?.length.toString() ?? '0'
 	);
-	const isApi = event.request.method != 'GET';
+	let type = 'ServerHtmlResponse';
+	if (response) {
+		switch (response.headers.get('content-type')) {
+			case 'text/html':
+				type = 'ServerHtmlResponse';
+				break;
+			case 'text/sveltekit-data':
+				type = 'ServerSvelteKitResponse';
+				break;
+			default:
+				type = 'ServerAPIResponse';
+				break;
+		}
+	} else {
+		type = event.request.method != 'GET' ? 'ServerAPIResponse' : 'ServerHtmlResponse';
+	}
 	// TODO 1 API validation errors are being logged as 200, can't figure out an easy way to distinguish them
 	logger.log({
 		level: status >= 500 ? 'error' : status >= 400 ? 'warn' : 'info',
-		message: `${isApi ? 'API ' : ''}RESPONSE ${status} ${method} ${path}${errorMessage ? ` ${errorMessage}` : ''}`,
-		type: isApi ? 'ServerResponse' : 'ServerAPIResponse',
+		message: `${status} ${method.padEnd(4)} ${type} ${path}${errorMessage ? ` ${errorMessage}` : ''}`,
+		type: type,
 		error: status >= 500 ? error : undefined,
 		extra: {
 			method: method,

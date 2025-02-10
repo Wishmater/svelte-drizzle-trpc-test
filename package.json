@@ -28,7 +28,7 @@
 		"prettier": "^3.3.2",
 		"prettier-plugin-svelte": "^3.2.6",
 		"prettier-plugin-tailwindcss": "^0.6.5",
-		"loggerjs": "github:FromZeroDev/loggerjs#996daa827d94693a08e59c88ba1ad49d43126614",
+		"loggerjs": "github:FromZeroDev/loggerjs#a536594de0f7c2028332e897e81c679612c65849",
 
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^4.0.0",
@@ -43,7 +43,7 @@
 		"valibot": "^1.0.0-beta.11",
 		"@valibot/i18n": "^1.0.0-beta.2",
 		"drizzle-valibot": "0.3.0",
-		"sveltekit-search-params":  "^3.0.0",
+		"sveltekit-search-params":  "^4.0.0-next.0",
 
 		"svelte": "^5.0.0",
 		"svelte-check": "^4.0.0",
