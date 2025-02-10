@@ -30,6 +30,10 @@
 	disableConstraints($constraints); // remove constraints on hydration, to show prettier JS errors. While JS is loading, html constraints still work
 
 	let showTaintedAlert: () => Promise<boolean> = $state(null!);
+
+	function onInput(e: any): void {
+		$formData.avatar = e.currentTarget.files?.item(0);
+	}
 </script>
 
 <svelte:head>
@@ -69,19 +73,14 @@
 		<Form.Control>
 			{#snippet children({ props })}
 				<Form.Label>Avatar</Form.Label>
-				<Input
-					{...props}
-					type="file"
-					oninput={(e) => ($formData.avatar = e.currentTarget.files?.item(0) as File)}
-					{...$constraints?.avatar}
-				/>
+				<Input {...props} type="file" oninput={onInput} {...$constraints?.avatar} />
 			{/snippet}
 		</Form.Control>
 		<Form.FieldErrors />
 	</Form.Field>
 
 	<div class="mt-8">
-		{#if $delayed}
+		{#if $delayed && !$timeout}
 			<Form.Button disabled>
 				<LoaderCircle size={34} class="animate-spin"></LoaderCircle>
 				Edit User

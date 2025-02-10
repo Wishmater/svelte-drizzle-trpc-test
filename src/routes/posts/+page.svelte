@@ -16,7 +16,9 @@
 
 	export let data: PageData;
 
-	let awaitedTags: Awaited<typeof data.tags>;
+	type PostData = Awaited<typeof data.posts>[number];
+
+	let awaitedTags: PostData[];
 	data.tags.then((e) => (awaitedTags = e));
 
 	const queryParams = queryParameters({
@@ -105,7 +107,7 @@
 	</div>
 </div>
 
-{#snippet deleteButton(post: Post)}
+{#snippet deleteButton(post: PostData)}
 	<AlertDialog.Root>
 		<AlertDialog.Trigger>
 			<Tooltip.Root disableHoverableContent>

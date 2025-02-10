@@ -4,13 +4,13 @@
 
 	interface Props {
 		title: string;
-		subtitle: string | undefined;
-		submitText: string | undefined;
-		cancelText: string | undefined;
-		onSubmit: () => void | undefined;
-		onCancel: () => void | undefined;
-		showAlert: () => Promise<boolean>;
-		children: any;
+		subtitle?: string | undefined;
+		submitText?: string | undefined;
+		cancelText?: string | undefined;
+		onSubmit?: (() => void) | undefined;
+		onCancel?: (() => void) | undefined;
+		showAlert?: () => Promise<boolean>;
+		children?: any;
 	}
 	let {
 		title = 'Are you sure?',

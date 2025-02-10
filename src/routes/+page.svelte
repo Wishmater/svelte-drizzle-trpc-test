@@ -37,7 +37,11 @@
 
 		<Button variant="link">Link</Button>
 
-		<SimpleAlertDialog onSubmit={() => alert('onSubmit')} onCancel={() => alert('onCancel')}>
+		<SimpleAlertDialog
+			title="Alert Title"
+			onSubmit={() => alert('onSubmit')}
+			onCancel={() => alert('onCancel')}
+		>
 			<Button variant="destructive">Destructive</Button>
 		</SimpleAlertDialog>
 	</InkWell>
