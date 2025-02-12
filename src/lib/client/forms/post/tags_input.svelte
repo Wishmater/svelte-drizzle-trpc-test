@@ -23,40 +23,40 @@
 	let open = $state(false);
 </script>
 
-{#await itemsPromise}
-	<LoaderCircle size={34} class="animate-spin"></LoaderCircle>
-{:then items}
-	<Popover.Root bind:open>
-		<Form.Control>
-			{#snippet children({ props })}
-				<Form.Label>Tags</Form.Label>
-				<Popover.Trigger
-					class={cn(
-						buttonVariants({ variant: 'outline', size: 'adaptive' }),
-						'w-full justify-between py-1',
-						!$formData.tags.length && 'text-muted-foreground'
-					)}
-					role="combobox"
-					{...props}
-				>
-					{#if $formData.tags.length}
-						<div class="flex flex-wrap gap-x-2 gap-y-1">
-							{#each $formData.tags as tag}
-								<div class="rounded-full border-2 px-2 py-0.5">
-									{tag.name}
-								</div>
-							{/each}
-						</div>
-					{:else}
-						Select tags...
-					{/if}
-					<ChevronsUpDown class="opacity-50" />
-				</Popover.Trigger>
-				<input hidden value={$formData.tags} name={props.name} />
-			{/snippet}
-		</Form.Control>
-		<Popover.Content class="p-0">
-			<Command.Root>
+<Popover.Root bind:open>
+	<Form.Control>
+		{#snippet children({ props })}
+			<Form.Label>Tags</Form.Label>
+			<Popover.Trigger
+				class={cn(
+					buttonVariants({ variant: 'outline', size: 'adaptive' }),
+					'w-full justify-between py-1',
+					!$formData.tags.length && 'text-muted-foreground'
+				)}
+				role="combobox"
+				{...props}
+			>
+				{#if $formData.tags.length}
+					<div class="flex flex-wrap gap-x-2 gap-y-1">
+						{#each $formData.tags as tag}
+							<div class="rounded-full border-2 px-2 py-0.5">
+								{tag.name}
+							</div>
+						{/each}
+					</div>
+				{:else}
+					Select tags...
+				{/if}
+				<ChevronsUpDown class="opacity-50" />
+			</Popover.Trigger>
+			<input hidden value={$formData.tags} name={props.name} />
+		{/snippet}
+	</Form.Control>
+	<Popover.Content class="p-0">
+		<Command.Root>
+			{#await itemsPromise}
+				<LoaderCircle size={34} class="px-auto my-4 w-full animate-spin"></LoaderCircle>
+			{:then items}
 				<Command.Input autofocus placeholder="Search tag..." class="h-9" />
 				<Command.Empty>No tags found.</Command.Empty>
 				<Command.Group>
@@ -77,11 +77,11 @@
 						</Command.Item>
 					{/each}
 				</Command.Group>
-			</Command.Root>
-		</Popover.Content>
-	</Popover.Root>
-	<Form.Description>This tags will be associated with the post for easy search.</Form.Description>
-	<Form.FieldErrors />
-{:catch _}
-	Error !!!
-{/await}
+			{:catch _}
+				Error !!!
+			{/await}
+		</Command.Root>
+	</Popover.Content>
+</Popover.Root>
+<Form.Description>This tags will be associated with the post for easy search.</Form.Description>
+<Form.FieldErrors />

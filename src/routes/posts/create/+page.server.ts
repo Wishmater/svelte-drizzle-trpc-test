@@ -13,7 +13,9 @@ import { redirectWithMessage } from '$lib/server/util/toast_message';
 import { postTags } from '$lib/server/db/schema/tag';
 
 export const load = (async () => {
-	const tags = db.query.tags.findMany();
+	const tags = new Promise((resolve) => setTimeout(resolve, 2000)).then(() =>
+		db.query.tags.findMany()
+	);
 	const form = await superValidate(
 		{
 			authorId: 1 // TODO 1 initialize with logged in user id (waiting for auth implementation)
