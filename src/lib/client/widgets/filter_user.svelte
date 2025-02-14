@@ -9,6 +9,7 @@
 	import type { UserMinimal } from '$lib/common/validations/user';
 	import { route } from '$lib/ROUTES';
 	import Close from 'lucide-svelte/icons/x';
+	import { debounce } from '$common/util/debounce';
 
 	interface Props {
 		selectedUser: UserMinimal | null;
@@ -26,10 +27,17 @@
 		return getUsers(searchQuery);
 	});
 
-	async function getUsers(searchQuery: string): Promise<UserMinimal[]> {
-		const apiResult = await fetch(route('GET /users/api', { query: searchQuery }));
+	let abortController: AbortController | undefined;
+	const getUsers = debounce(async (searchQuery: string): Promise<UserMinimal[]> => {
+		if (abortController) {
+			abortController.abort('Search query changed');
+		}
+		abortController = new AbortController();
+		const apiResult = await fetch(route('GET /users/api', { query: searchQuery }), {
+			signal: abortController.signal
+		});
 		return apiResult.json();
-	}
+	}, 500);
 </script>
 
 <div class="flex flex-row">
