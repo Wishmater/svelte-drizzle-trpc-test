@@ -4,7 +4,7 @@
 	import * as Tooltip from '$lib/client/components/ui/tooltip/index.js';
 	import * as AlertDialog from '$lib/client/components/ui/alert-dialog/index.js';
 	import { route } from '$lib/ROUTES';
-	import { Button } from '$lib/client/components/ui/button';
+	import { Button, buttonVariants } from '$lib/client/components/ui/button';
 	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
 	import Delete from 'lucide-svelte/icons/trash';
 	import Close from 'lucide-svelte/icons/x';
@@ -13,15 +13,17 @@
 	import { objectDecoder } from '$lib/client/validations/query_params';
 	import type { QueryParams } from './+page.server';
 	import { UserMinimalSchema } from '$lib/common/validations/user';
+	import FilterUser from '$lib/client/widgets/filter_user.svelte';
 
 	export let data: PageData;
 
-	type TagData = Awaited<typeof data.posts>[number];
+	type TagData = Awaited<typeof data.tags>[number];
 	type PostData = Awaited<typeof data.posts>[number];
 
 	let awaitedTags: TagData[];
 	data.tags.then((e) => (awaitedTags = e));
 
+	// TODO 1 find a clever way to cross-validate query params type with between back and front
 	const queryParams = queryParameters({
 		tag: objectDecoder(TagMinimalSchema),
 		user: objectDecoder(UserMinimalSchema)
@@ -42,6 +44,7 @@
 		<div class="flex flex-row items-center justify-between">
 			<div>
 				Posts Page
+
 				<br />
 				<br />
 				<div class="flex flex-row">
@@ -50,7 +53,7 @@
 						value={queryParams.tag?.id.toString()}
 						onValueChange={onTagFilterSelected}
 					>
-						<Select.Trigger class="w-40">
+						<Select.Trigger class="w-40 px-4">
 							{queryParams.tag ? queryParams.tag.name : 'Filter by tag...'}
 						</Select.Trigger>
 						<Select.Content>
@@ -72,6 +75,11 @@
 						</Button>
 					{/if}
 				</div>
+
+				<div class="pt-2">
+					<FilterUser bind:selectedUser={queryParams.user} />
+				</div>
+
 				<br />
 			</div>
 			<Button href={route('/posts/create')}>Create Post</Button>
@@ -113,10 +121,8 @@
 		<AlertDialog.Trigger>
 			<Tooltip.Root disableHoverableContent>
 				<Tooltip.Content>Delete post</Tooltip.Content>
-				<Tooltip.Trigger>
-					<Button variant="ghost" size="icon">
-						<Delete />
-					</Button>
+				<Tooltip.Trigger class={buttonVariants({ variant: 'ghost', size: 'icon' })}>
+					<Delete />
 				</Tooltip.Trigger>
 			</Tooltip.Root>
 		</AlertDialog.Trigger>

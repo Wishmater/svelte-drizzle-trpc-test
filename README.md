@@ -84,6 +84,9 @@ For simpler apps, ideally we can just use SvelteKit's load() and actions APIs.
 These are type-safe and also forces you to put state into the url/cookies, which is good.
 Especially interesting is the [streaming load() promises API](), this allow us to have SSR with immediate response, and then stream down data from DB that takes longer to load (for prod be careful about [nginx config and other bugs](https://github.com/sveltejs/kit/issues/9534), test well).
 
+### [SvelteKit routes validation](https://www.kitql.dev/docs/tools/06_vite-plugin-kit-routes) (optional)
+Makes your href and fetch calls type safe and warns when a route changes, making your reference broken.
+
 ### [REST API]() (optional)
 On more complicated webapps, we might need a full-blown custom RESTful API.
 Ideally, we also use OpenAPI definitions to generate types and serialization code.
@@ -174,4 +177,3 @@ After hydration, listen to errors, log them, and in case of connection errors, s
 - Implement an async shadcn combobox (probably with an API endpoint). Use it for user select in posts query filters.
 - Implement auth with cookies sessions, include logging user, and sending user data to frontend via load(). User data will be passed around in locals.user once loaded in logging middleware.
 - (PARTIALLY IMPLEMENTED) Easily using cookies to store persistent state. To test, do one that changes.
-- More shadcn components

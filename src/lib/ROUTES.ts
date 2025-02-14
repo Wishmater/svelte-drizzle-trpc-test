@@ -25,7 +25,9 @@ const PAGES = {
  * SERVERS
  */
 const SERVERS = {
-  
+  "GET /users/api": (params?: { query?: (string) }) => {
+    return `/users/api${appendSp({ query: params?.query })}`
+  }
 }
 
 /**
@@ -146,8 +148,8 @@ export function route<T extends keyof AllTypes>(key: T, ...params: any[]): strin
 */
 export type KIT_ROUTES = {
   PAGES: { '/': never, '/posts': never, '/posts/create': never, '/tags': never, '/tags/create': never, '/users': never, '/users/[id]/edit': 'id', '/users/create': never }
-  SERVERS: Record<string, never>
+  SERVERS: { 'GET /users/api': never }
   ACTIONS: { 'delete /posts': never, 'default /posts/create': never, 'default /tags/create': never, 'default /users/[id]/edit': 'id', 'default /users/create': never }
   LINKS: Record<string, never>
-  Params: { id: never }
+  Params: { id: never, query: never }
 }

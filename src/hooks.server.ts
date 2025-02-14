@@ -89,7 +89,10 @@ function log({ status, errorMessage = undefined, event, response = undefined, er
 				break;
 		}
 	} else {
-		type = event.request.method != 'GET' ? 'ServerAPIResponse' : 'ServerHtmlResponse';
+		type =
+			event.request.method != 'GET' || path.includes('/api')
+				? 'ServerAPIResponse'
+				: 'ServerHtmlResponse';
 	}
 	// TODO 1 API validation errors are being logged as 200, can't figure out an easy way to distinguish them
 	logger.log({

@@ -55,7 +55,7 @@
 	<Popover.Content class="p-0">
 		<Command.Root>
 			{#await itemsPromise}
-				<LoaderCircle size={34} class="px-auto my-4 w-full animate-spin"></LoaderCircle>
+				<LoaderCircle size={34} class="px-auto my-6 w-full animate-spin"></LoaderCircle>
 			{:then items}
 				<Command.Input autofocus placeholder="Search tag..." class="h-9" />
 				<Command.Empty>No tags found.</Command.Empty>

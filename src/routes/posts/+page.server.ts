@@ -40,7 +40,7 @@ export const load = (async ({ url }) => {
 		// sadly drizzle queries are not that good for nested filters,
 		// for now, we're just filtering in JS,
 		// for good performance, we would need to rewrite the query in SQL
-		// new drizzle version apparently improves query API to solve this, but not out yet...
+		// new drizzle version apparently improves query API to solve this, but it's not out yet...
 		posts = posts.then((e) => {
 			return e.filter((e) => {
 				return e.postTags.some((e) => {
