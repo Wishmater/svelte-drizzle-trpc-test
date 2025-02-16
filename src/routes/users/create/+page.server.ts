@@ -11,6 +11,7 @@ import { userDefaults, UserInsertSchemaBackend } from '$lib/server/validations/u
 import { logger } from '$lib/common/logging';
 import { type ToastMessage } from '$lib/common/util/toast_message';
 import { redirectWithMessage } from '$lib/server/util/toast_message';
+import { hashPassword } from '$server/auth/password';
 
 export const load = (async () => {
 	const form = await superValidate(valibot(UserInsertSchema), { defaults: userDefaults });
@@ -27,6 +28,7 @@ export const actions = {
 		}
 
 		await new Promise((resolve) => setTimeout(resolve, 2000));
+		form.data.password = hashPassword(form.data.password);
 		const result = await db.insert(users).values(form.data).returning().execute();
 
 		const message: ToastMessage = {

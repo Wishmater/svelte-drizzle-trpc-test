@@ -10,13 +10,16 @@
  */
 const PAGES = {
   "/": `/`,
+  "/login": (params?: { redirectTo?: (string) }) => {
+    return `/login${appendSp({ 'redirectTo': params?.['redirectTo'] })}`
+  },
   "/posts": `/posts`,
   "/posts/create": `/posts/create`,
   "/tags": `/tags`,
   "/tags/create": `/tags/create`,
   "/users": `/users`,
   "/users/[id]/edit": (params: { id: (string | number) }) => {
-    return `/users/${params.id}/edit`
+    return `/users/${params['id']}/edit`
   },
   "/users/create": `/users/create`
 }
@@ -26,7 +29,7 @@ const PAGES = {
  */
 const SERVERS = {
   "GET /users/api": (params?: { query?: (string) }) => {
-    return `/users/api${appendSp({ query: params?.query })}`
+    return `/users/api${appendSp({ 'query': params?.['query'] })}`
   }
 }
 
@@ -34,11 +37,15 @@ const SERVERS = {
  * ACTIONS
  */
 const ACTIONS = {
+  "logout /": (params?: { redirectTo?: (string) }) => {
+    return `/?/logout${appendSp({ 'redirectTo': params?.['redirectTo'] }, '&')}`
+  },
+  "default /login": `/login`,
   "delete /posts": `/posts?/delete`,
   "default /posts/create": `/posts/create`,
   "default /tags/create": `/tags/create`,
   "default /users/[id]/edit": (params: { id: (string | number) }) => {
-    return `/users/${params.id}/edit`
+    return `/users/${params['id']}/edit`
   },
   "default /users/create": `/users/create`
 }
@@ -55,7 +62,10 @@ type ParamValue = string | number | undefined
 /**
  * Append search params to a string
  */
-export const appendSp = (sp?: Record<string, ParamValue | ParamValue[]>, prefix: '?' | '&' = '?') => {
+export const appendSp = (
+  sp?: Record<string, ParamValue | ParamValue[]>,
+  prefix: '?' | '&' = '?',
+) => {
   if (sp === undefined) return ''
 
   const params = new URLSearchParams()
@@ -65,7 +75,12 @@ export const appendSp = (sp?: Record<string, ParamValue | ParamValue[]>, prefix:
     }
   }
 
+  let anchor = ''
   for (const [name, val] of Object.entries(sp)) {
+    if (name === '__KIT_ROUTES_ANCHOR__' && val !== undefined) {
+      anchor = `#${val}`
+      continue
+    }
     if (Array.isArray(val)) {
       for (const v of val) {
         append(name, v)
@@ -76,8 +91,8 @@ export const appendSp = (sp?: Record<string, ParamValue | ParamValue[]>, prefix:
   }
 
   const formatted = params.toString()
-  if (formatted) {
-    return `${prefix}${formatted}`
+  if (formatted || anchor) {
+    return `${prefix}${formatted}${anchor}`.replace('?#', '#')
   }
   return ''
 }
@@ -136,7 +151,7 @@ export function route<T extends keyof AllTypes>(key: T, ...params: any[]): strin
 *
 * Full example:
 * ```ts
-* import type { KIT_ROUTES } from '$_lib/ROUTES'
+* import type { KIT_ROUTES } from '$lib/ROUTES'
 * import { kitRoutes } from 'vite-plugin-kit-routes'
 *
 * kitRoutes<KIT_ROUTES>({
@@ -147,9 +162,9 @@ export function route<T extends keyof AllTypes>(key: T, ...params: any[]): strin
 * ```
 */
 export type KIT_ROUTES = {
-  PAGES: { '/': never, '/posts': never, '/posts/create': never, '/tags': never, '/tags/create': never, '/users': never, '/users/[id]/edit': 'id', '/users/create': never }
+  PAGES: { '/': never, '/login': never, '/posts': never, '/posts/create': never, '/tags': never, '/tags/create': never, '/users': never, '/users/[id]/edit': 'id', '/users/create': never }
   SERVERS: { 'GET /users/api': never }
-  ACTIONS: { 'delete /posts': never, 'default /posts/create': never, 'default /tags/create': never, 'default /users/[id]/edit': 'id', 'default /users/create': never }
+  ACTIONS: { 'logout /': never, 'default /login': never, 'delete /posts': never, 'default /posts/create': never, 'default /tags/create': never, 'default /users/[id]/edit': 'id', 'default /users/create': never }
   LINKS: Record<string, never>
-  Params: { id: never, query: never }
+  Params: { 'redirectTo': never, 'id': never, 'query': never }
 }

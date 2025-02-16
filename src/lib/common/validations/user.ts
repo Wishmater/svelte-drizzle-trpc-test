@@ -38,5 +38,8 @@ export const UserUpdateSchema = v.omit(UserSchema, [
 	'password'
 ]) satisfies v.GenericSchema<UserUpdate>;
 
+export const UserDataSchema = v.omit(UserSchema, ['password']);
+export type UserData = v.InferOutput<typeof UserDataSchema>;
+
 export const UserMinimalSchema = v.pick(UserSchema, ['id', 'username', 'email']);
 export type UserMinimal = v.InferOutput<typeof UserMinimalSchema>;

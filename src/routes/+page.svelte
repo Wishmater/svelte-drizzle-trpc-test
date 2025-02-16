@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { route } from '$lib/ROUTES';
-	import { Button } from '$lib/client/components/ui/button';
+	import { Button, buttonVariants } from '$lib/client/components/ui/button';
 	import InkWell from '$lib/client/widgets/inkwell.svelte';
 	import SimpleAlertDialog from '$lib/client/widgets/simple_alert_dialog.svelte';
 	import { Separator } from '$lib/client/components/ui/separator';
@@ -42,7 +42,7 @@
 			onSubmit={() => alert('onSubmit')}
 			onCancel={() => alert('onCancel')}
 		>
-			<Button variant="destructive">Destructive</Button>
+			<div class={buttonVariants({ variant: 'destructive' })}>Destructive</div>
 		</SimpleAlertDialog>
 	</InkWell>
 </div>

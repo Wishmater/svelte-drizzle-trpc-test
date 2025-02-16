@@ -1,3 +1,7 @@
 import type { LayoutServerLoad } from './$types';
 
-export const load = (async ({ cookies }) => {}) satisfies LayoutServerLoad;
+export const load = (async ({ locals }) => {
+	return {
+		user: locals.user
+	};
+}) satisfies LayoutServerLoad;

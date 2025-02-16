@@ -72,6 +72,10 @@ To launch Drizzle Studio db inspector:
 npx drizzle-kit studio
 ```
 
+### [Lucia Auth](https://lucia-auth.com/) (optional)
+Lucia has good instructions to easily implement auth with sessions. Sessions are [saved to db with DrizzleORM](https://lucia-auth.com/sessions/basic-api/drizzle-orm) (or with any db you use). Sessions are [sent to client with svelteKit cookies](https://lucia-auth.com/sessions/cookies/sveltekit).
+<br>SvelteKit docs also recommend Lucia and talk about auth with [sessions vs JWT](https://svelte.dev/docs/kit/auth).
+
 ---
 ## Back-Front Communication
 
@@ -174,6 +178,5 @@ After hydration, listen to errors, log them, and in case of connection errors, s
 
 ---
 # Now:
-- Implement an async shadcn combobox (probably with an API endpoint). Use it for user select in posts query filters.
 - Implement auth with cookies sessions, include logging user, and sending user data to frontend via load(). User data will be passed around in locals.user once loaded in logging middleware.
 - (PARTIALLY IMPLEMENTED) Easily using cookies to store persistent state. To test, do one that changes.

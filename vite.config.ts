@@ -14,6 +14,20 @@ export default defineConfig({
 			filename: 'stats.html'
 		}),
 		kitRoutes<KIT_ROUTES>({
+			PAGES: {
+				'/login': {
+					explicit_search_params: {
+						redirectTo: { type: 'string' }
+					}
+				}
+			},
+			ACTIONS: {
+				'logout /': {
+					explicit_search_params: {
+						redirectTo: { type: 'string' }
+					}
+				}
+			},
 			SERVERS: {
 				'GET /users/api': {
 					explicit_search_params: {
