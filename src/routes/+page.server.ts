@@ -1,5 +1,5 @@
 import { invalidateSession } from '$server/auth/sessions';
-import { deleteSessionTokenCookie } from '$server/middlewares/authentication';
+import { deleteSessionTokenCookie } from '$server/auth/authentication';
 import type { Actions } from '../../.svelte-kit/types/src/routes/login/$types';
 import { route } from '$lib/ROUTES';
 import { redirectWithMessage } from '$server/util/toast_message';

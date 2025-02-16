@@ -43,18 +43,21 @@
 		<header
 			class="mb-8 flex h-20 w-full flex-row content-center items-center justify-center border-b-2"
 		>
-			<a href={route('/')} class="mr-8 text-xl">
+			<a href={route('/')} class="text-xl">
 				<h1>SvelteKit FullStack Test</h1>
 			</a>
-			{#if data.user}
-				<h6>{data.user.username}</h6>
-				<form method="POST" action={route('logout /', { redirectTo: page.url.toString() })}>
-					<Button type="submit" variant="ghost">Logout</Button>
-				</form>
-			{:else}
-				<Button variant="ghost" href={route('/login', { redirectTo: page.url.toString() })}>
-					Login
-				</Button>
+			{#if data.user !== undefined}
+				<div class="w-16"></div>
+				{#if data.user}
+					<h6>{data.user.username}</h6>
+					<form method="POST" action={route('logout /', { redirectTo: page.url.toString() })}>
+						<Button type="submit" variant="ghost">Logout</Button>
+					</form>
+				{:else}
+					<Button variant="ghost" href={route('/login', { redirectTo: page.url.toString() })}>
+						Login
+					</Button>
+				{/if}
 			{/if}
 		</header>
 

@@ -21,7 +21,7 @@ const ParamsSchema = v.object({
 });
 
 export const load = (async (event) => {
-	requireAdmin(event);
+	await requireAdmin(event);
 	const parsedParams = v.safeParse(ParamsSchema, event.params);
 	if (!parsedParams.success) return error(400, { message: getErrorMessage(parsedParams) });
 	const { id } = parsedParams.output;
@@ -41,7 +41,7 @@ export const load = (async (event) => {
 
 export const actions = {
 	default: async (event) => {
-		requireAdmin(event);
+		await requireAdmin(event);
 		const parsedParams = v.safeParse(ParamsSchema, event.params);
 		if (!parsedParams.success) return error(400, { message: getErrorMessage(parsedParams) });
 		const { id } = parsedParams.output;

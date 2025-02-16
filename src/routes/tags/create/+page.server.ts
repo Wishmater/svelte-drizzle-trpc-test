@@ -13,7 +13,7 @@ import { redirectWithMessage } from '$lib/server/util/toast_message';
 import { requireAdmin } from '$server/auth/authorization';
 
 export const load = (async (event) => {
-	requireAdmin(event);
+	await requireAdmin(event);
 	const form = await superValidate(
 		{
 			details: [{}]
@@ -30,7 +30,7 @@ export const load = (async (event) => {
 
 export const actions = {
 	default: async (event) => {
-		requireAdmin(event);
+		await requireAdmin(event);
 		const form = await superValidate(event.request, valibot(TagInsertSchema));
 		if (!form.valid) {
 			return fail(422, { form });

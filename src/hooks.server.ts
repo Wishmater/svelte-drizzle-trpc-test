@@ -6,7 +6,6 @@ import { users } from '$lib/server/db/schema/user';
 import * as fs from 'node:fs';
 import { dev } from '$app/environment';
 import { loggerMiddleware, logRequest } from '$server/middlewares/logging';
-import { authenticationMiddleware } from '$server/middlewares/authentication';
 import { hashPassword } from '$server/auth/password';
 
 initLogger();
@@ -32,7 +31,7 @@ export const init: ServerInit = async () => {
 	}
 };
 
-export const handle: Handle = sequence(loggerMiddleware, authenticationMiddleware);
+export const handle: Handle = sequence(loggerMiddleware);
 
 export const handleError: HandleServerError = async ({ error, event, status, message }) => {
 	logRequest({

@@ -68,7 +68,7 @@ export const load = (async ({ url }) => {
 
 export const actions = {
 	delete: async (event) => {
-		requireLogin(event);
+		await requireLogin(event);
 		const form = await superValidate(event.request, valibot(DeletePostData));
 		if (!form.valid) {
 			return fail(422, { form });

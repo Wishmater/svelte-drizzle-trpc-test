@@ -5,7 +5,7 @@ import { isFullSSR } from '$lib/server/util/full_ssr';
 import { requireAdmin } from '$server/auth/authorization';
 
 export const load = (async (event) => {
-	requireAdmin(event);
+	await requireAdmin(event);
 	const users = getUsers();
 	return {
 		datetime: Date.now().toString(),

@@ -12,10 +12,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { LoginSchema } from '$common/validations/login';
 import { hashPassword } from '$server/auth/password';
 import { createSession, generateSessionToken, invalidateSession } from '$server/auth/sessions';
-import {
-	deleteSessionTokenCookie,
-	setSessionTokenCookie
-} from '$server/middlewares/authentication';
+import { deleteSessionTokenCookie, setSessionTokenCookie } from '$server/auth/authentication';
 
 export const load = (async () => {
 	const form = await superValidate(valibot(LoginSchema));

@@ -1,7 +1,9 @@
 import type { LayoutServerLoad } from './$types';
+import { authenticate } from '$server/auth/authentication';
 
-export const load = (async ({ locals }) => {
+export const load = (async (event) => {
+	await authenticate(event);
 	return {
-		user: locals.user
+		user: event.locals.user
 	};
 }) satisfies LayoutServerLoad;

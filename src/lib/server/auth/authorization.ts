@@ -1,7 +1,9 @@
 import { error, redirect, type RequestEvent } from '@sveltejs/kit';
+import { authenticate } from '$server/auth/authentication';
 
 // throws redirect (or 403 error when isApi) if there is no logged-in user
-export function requireLogin(event: RequestEvent, isApi: boolean | undefined = undefined) {
+export async function requireLogin(event: RequestEvent, isApi: boolean | undefined = undefined) {
+	await authenticate(event);
 	if (!event.locals.user) {
 		if (isApi ?? event.locals.isApi) {
 			return error(400, 'You need authentication to use the requested resource');
@@ -14,8 +16,8 @@ export function requireLogin(event: RequestEvent, isApi: boolean | undefined = u
 }
 
 // call requireLogin(), then throw 403 error if user isn't admin
-export function requireAdmin(event: RequestEvent, isApi: boolean | undefined = undefined) {
-	requireLogin(event, isApi);
+export async function requireAdmin(event: RequestEvent, isApi: boolean | undefined = undefined) {
+	await requireLogin(event, isApi);
 	if (event.locals.user!.type != 'Admin') {
 		return error(403, 'You are not authorized to use the requested resource');
 	}

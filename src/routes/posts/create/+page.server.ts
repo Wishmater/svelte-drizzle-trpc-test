@@ -14,7 +14,7 @@ import { postTags } from '$lib/server/db/schema/tag';
 import { requireLogin } from '$server/auth/authorization';
 
 export const load = (async (event) => {
-	requireLogin(event);
+	await requireLogin(event);
 	const tags = new Promise((resolve) => setTimeout(resolve, 2000)).then(() =>
 		db.query.tags.findMany()
 	);
@@ -35,7 +35,7 @@ export const load = (async (event) => {
 
 export const actions = {
 	default: async (event) => {
-		requireLogin(event);
+		await requireLogin(event);
 		const form = await superValidate(event.request, valibot(PostInsertSchema));
 		if (!form.valid) {
 			return fail(422, { form });

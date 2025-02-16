@@ -15,7 +15,7 @@ import { hashPassword } from '$server/auth/password';
 import { requireAdmin } from '$server/auth/authorization';
 
 export const load = (async (event) => {
-	requireAdmin(event);
+	await requireAdmin(event);
 	const form = await superValidate(valibot(UserInsertSchema), { defaults: userDefaults });
 	return {
 		form
@@ -24,7 +24,7 @@ export const load = (async (event) => {
 
 export const actions = {
 	default: async (event) => {
-		requireAdmin(event);
+		await requireAdmin(event);
 		const form = await superValidate(event.request, valibot(UserInsertSchemaBackend));
 		if (!form.valid) {
 			return fail(422, { form });

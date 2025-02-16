@@ -8,8 +8,8 @@ declare global {
 		interface Locals {
 			isApi: boolean;
 			startTimer: number;
-			user: UserData | undefined;
-			session: Session | undefined;
+			user: UserData | null | undefined;
+			session: Session | null | undefined;
 		}
 		// interface Error {}
 		// interface PageData {}
