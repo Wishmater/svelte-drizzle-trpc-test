@@ -54,7 +54,7 @@ export function logRequest({
 	} else {
 		type = event.locals.isApi ? 'ServerAPIResponse' : 'ServerHtmlResponse';
 	}
-	// TODO 1 API validation errors are being logged as 200, can't figure out an easy way to distinguish them
+	// TODO 2 API validation errors are being logged as 200, can't figure out an easy way to distinguish them
 	logger.log({
 		level: status >= 500 ? 'error' : status >= 400 ? 'warn' : 'info',
 		message: `${status} ${method.padEnd(4)} ${type} ${path}${errorMessage ? ` ${errorMessage}` : ''}`,
@@ -62,12 +62,12 @@ export function logRequest({
 		error: status >= 500 ? error : undefined,
 		extra: {
 			method: method,
-			status: status,
-			client_ip: event.getClientAddress(),
 			path: path,
-			response_size: responseSize,
-			elapsed: elapsed
-			// TODO 1 log user info (and add it to locals all the way down load() to the frontend)
+			user: event.locals.user?.username,
+			client_ip: event.getClientAddress(),
+			status: status,
+			elapsed: elapsed,
+			response_size: responseSize
 		}
 	});
 }
