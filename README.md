@@ -178,5 +178,4 @@ After hydration, listen to errors, log them, and in case of connection errors, s
 
 ---
 # Now:
-- Implement auth with cookies sessions, include logging user, and sending user data to frontend via load(). User data will be passed around in locals.user once loaded in logging middleware.
 - (PARTIALLY IMPLEMENTED) Easily using cookies to store persistent state. To test, do one that changes.
