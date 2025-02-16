@@ -14,13 +14,15 @@ import { type ToastMessage } from '$lib/common/util/toast_message';
 import { redirectWithMessage } from '$lib/server/util/toast_message';
 import { writeFile } from '$lib/server/util/files';
 import { userAvatarsDir } from '../../../../hooks.server';
+import { requireAdmin } from '$server/auth/authorization';
 
 const ParamsSchema = v.object({
 	id: ParseIntegerSchema
 });
 
-export const load = (async ({ params }) => {
-	const parsedParams = v.safeParse(ParamsSchema, params);
+export const load = (async (event) => {
+	requireAdmin(event);
+	const parsedParams = v.safeParse(ParamsSchema, event.params);
 	if (!parsedParams.success) return error(400, { message: getErrorMessage(parsedParams) });
 	const { id } = parsedParams.output;
 
@@ -38,12 +40,13 @@ export const load = (async ({ params }) => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-	default: async ({ params, request, cookies }) => {
-		const parsedParams = v.safeParse(ParamsSchema, params);
+	default: async (event) => {
+		requireAdmin(event);
+		const parsedParams = v.safeParse(ParamsSchema, event.params);
 		if (!parsedParams.success) return error(400, { message: getErrorMessage(parsedParams) });
 		const { id } = parsedParams.output;
 
-		const form = await superValidate(request, valibot(UserUpdateSchema));
+		const form = await superValidate(event.request, valibot(UserUpdateSchema));
 		if (!form.valid) {
 			return fail(422, { form });
 		}
@@ -68,6 +71,6 @@ export const actions = {
 			level: 'trace',
 			message: message.message
 		});
-		return redirectWithMessage(303, route('/users'), cookies, message);
+		return redirectWithMessage(303, route('/users'), event.cookies, message);
 	}
 } satisfies Actions;

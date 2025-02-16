@@ -4,6 +4,7 @@ import { dev } from '$app/environment';
 
 // reads the current user session, validates it, and sets it into event.locals.sessionUser
 export const authenticationMiddleware: Handle = async ({ event, resolve }) => {
+	// TODO 2 performance: this is being ran even on endpoints that don't need it (and even on static resource requests). Find a way to discern when it's necessary.
 	const token = event.cookies.get('session');
 	if (token) {
 		const { session, user, isRefreshed } = await validateSessionToken(token);

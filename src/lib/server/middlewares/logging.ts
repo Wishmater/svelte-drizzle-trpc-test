@@ -4,6 +4,7 @@ import { logger } from '$common/logging';
 // logs request and response details
 export const loggerMiddleware: Handle = async ({ event, resolve }) => {
 	event.locals.startTimer = performance.now();
+	event.locals.isApi = event.request.method != 'GET' || (event.route.id?.includes('/api') ?? false);
 	const response = await resolve(event);
 	logRequest({
 		status: response.status,
@@ -51,10 +52,7 @@ export function logRequest({
 				break;
 		}
 	} else {
-		type =
-			event.request.method != 'GET' || path.includes('/api')
-				? 'ServerAPIResponse'
-				: 'ServerHtmlResponse';
+		type = event.locals.isApi ? 'ServerAPIResponse' : 'ServerHtmlResponse';
 	}
 	// TODO 1 API validation errors are being logged as 200, can't figure out an easy way to distinguish them
 	logger.log({

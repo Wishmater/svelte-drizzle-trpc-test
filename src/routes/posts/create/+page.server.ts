@@ -11,14 +11,16 @@ import { logger } from '$lib/common/logging';
 import { type ToastMessage } from '$lib/common/util/toast_message';
 import { redirectWithMessage } from '$lib/server/util/toast_message';
 import { postTags } from '$lib/server/db/schema/tag';
+import { requireLogin } from '$server/auth/authorization';
 
-export const load = (async () => {
+export const load = (async (event) => {
+	requireLogin(event);
 	const tags = new Promise((resolve) => setTimeout(resolve, 2000)).then(() =>
 		db.query.tags.findMany()
 	);
 	const form = await superValidate(
 		{
-			authorId: 1 // TODO 1 initialize with logged in user id (waiting for auth implementation)
+			authorId: event.locals.user!.id
 		},
 		valibot(PostInsertSchema),
 		{
@@ -32,19 +34,22 @@ export const load = (async () => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-	default: async ({ request, cookies }) => {
-		const form = await superValidate(request, valibot(PostInsertSchema));
+	default: async (event) => {
+		requireLogin(event);
+		const form = await superValidate(event.request, valibot(PostInsertSchema));
 		if (!form.valid) {
 			return fail(422, { form });
 		}
-		// TODO 3 we should validate that the post author is the same as logged in user (should be easy with an async val)
+		form.data.authorId = event.locals.user!.id;
 
 		const post = (await db.insert(posts).values(form.data).returning().execute())[0];
 		// need to await the post insertion to get the id
-		const tagsInsertData = form.data.tags.map((e) => {
-			return { postId: post.id, tagId: e.id };
-		});
-		await db.insert(postTags).values(tagsInsertData).execute();
+		if (form.data.tags.length) {
+			const tagsInsertData = form.data.tags.map((e) => {
+				return { postId: post.id, tagId: e.id };
+			});
+			await db.insert(postTags).values(tagsInsertData).execute();
+		}
 
 		const message: ToastMessage = {
 			type: 'success',
@@ -54,6 +59,6 @@ export const actions = {
 			level: 'trace',
 			message: message.message
 		});
-		return redirectWithMessage(303, route('/posts'), cookies, message);
+		return redirectWithMessage(303, route('/posts'), event.cookies, message);
 	}
 } satisfies Actions;

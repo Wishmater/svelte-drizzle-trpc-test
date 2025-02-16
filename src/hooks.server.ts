@@ -7,7 +7,6 @@ import * as fs from 'node:fs';
 import { dev } from '$app/environment';
 import { loggerMiddleware, logRequest } from '$server/middlewares/logging';
 import { authenticationMiddleware } from '$server/middlewares/authentication';
-import { authorizationMiddleware } from '$server/middlewares/authorization';
 import { hashPassword } from '$server/auth/password';
 
 initLogger();
@@ -33,11 +32,7 @@ export const init: ServerInit = async () => {
 	}
 };
 
-export const handle: Handle = sequence(
-	loggerMiddleware,
-	authenticationMiddleware,
-	authorizationMiddleware
-);
+export const handle: Handle = sequence(loggerMiddleware, authenticationMiddleware);
 
 export const handleError: HandleServerError = async ({ error, event, status, message }) => {
 	logRequest({

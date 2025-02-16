@@ -14,6 +14,7 @@
 	import type { QueryParams } from './+page.server';
 	import { UserMinimalSchema } from '$lib/common/validations/user';
 	import FilterUser from '$lib/client/widgets/filter_user.svelte';
+	import { page } from '$app/state';
 
 	export let data: PageData;
 
@@ -91,7 +92,11 @@
 			{#each posts as post}
 				<div class="py-2"></div>
 				<div class="flex flex-row items-center">
-					{@render deleteButton(post)}
+					{#if post.author.username === page.data.user?.username || page.data.user?.type === 'Admin'}
+						{@render deleteButton(post)}
+					{:else}
+						<div class="w-10"></div>
+					{/if}
 
 					<div class="flex flex-col">
 						{post.author.username} - {post.createdAt.toLocaleString(undefined, {})}

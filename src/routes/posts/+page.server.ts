@@ -20,6 +20,7 @@ import { eq } from 'drizzle-orm';
 import * as v from 'valibot';
 import { TagMinimalSchema } from '$lib/common/validations/tag';
 import { UserMinimalSchema } from '$lib/common/validations/user';
+import { requireLogin } from '$server/auth/authorization';
 
 const QueryParamsSchema = v.object({
 	tag: v.optional(v.pipe(ParseObjectSchema, TagMinimalSchema)),
@@ -66,10 +67,20 @@ export const load = (async ({ url }) => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-	delete: async ({ request, cookies }) => {
-		const form = await superValidate(request, valibot(DeletePostData));
+	delete: async (event) => {
+		requireLogin(event);
+		const form = await superValidate(event.request, valibot(DeletePostData));
 		if (!form.valid) {
 			return fail(422, { form });
+		}
+		const post = await db.query.posts.findFirst({
+			where: (t, { eq }) => eq(t.id, form.data.id)
+		});
+		if (!post) {
+			return error(404, 'Post not found');
+		}
+		if (post.authorId != event.locals.user!.id && event.locals.user!.type != 'Admin') {
+			return error(403, 'Only the original author or an admin can delete a post');
 		}
 
 		await db.delete(posts).where(eq(posts.id, form.data.id));
@@ -82,6 +93,6 @@ export const actions = {
 			level: 'trace',
 			message: message.message
 		});
-		return redirectWithMessage(303, route('/posts'), cookies, message);
+		return redirectWithMessage(303, route('/posts'), event.cookies, message);
 	}
 } satisfies Actions;

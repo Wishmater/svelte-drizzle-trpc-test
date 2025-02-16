@@ -3,6 +3,7 @@
 	import { route } from '$lib/ROUTES';
 	import { Button } from '$lib/client/components/ui/button';
 	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
+	import { page } from '$app/state';
 
 	export let data: PageData;
 </script>
@@ -21,7 +22,9 @@
 				<br />
 				<br />
 			</div>
-			<Button href={route('/tags/create')}>Create Tag</Button>
+			{#if page.data.user?.type === 'Admin'}
+				<Button href={route('/tags/create')}>Create Tag</Button>
+			{/if}
 		</div>
 		{#await data.tags}
 			<LoaderCircle size={34} class="animate-spin"></LoaderCircle>

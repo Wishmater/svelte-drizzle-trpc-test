@@ -10,8 +10,10 @@ import * as v from 'valibot';
 import { logger } from '$lib/common/logging';
 import { type ToastMessage } from '$lib/common/util/toast_message';
 import { redirectWithMessage } from '$lib/server/util/toast_message';
+import { requireAdmin } from '$server/auth/authorization';
 
-export const load = (async () => {
+export const load = (async (event) => {
+	requireAdmin(event);
 	const form = await superValidate(
 		{
 			details: [{}]
@@ -27,8 +29,9 @@ export const load = (async () => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-	default: async ({ request, cookies }) => {
-		const form = await superValidate(request, valibot(TagInsertSchema));
+	default: async (event) => {
+		requireAdmin(event);
+		const form = await superValidate(event.request, valibot(TagInsertSchema));
 		if (!form.valid) {
 			return fail(422, { form });
 		}
@@ -47,6 +50,6 @@ export const actions = {
 			level: 'trace',
 			message: message.message
 		});
-		return redirectWithMessage(303, route('/tags'), cookies, message);
+		return redirectWithMessage(303, route('/tags'), event.cookies, message);
 	}
 } satisfies Actions;

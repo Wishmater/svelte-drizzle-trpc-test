@@ -12,8 +12,10 @@ import { logger } from '$lib/common/logging';
 import { type ToastMessage } from '$lib/common/util/toast_message';
 import { redirectWithMessage } from '$lib/server/util/toast_message';
 import { hashPassword } from '$server/auth/password';
+import { requireAdmin } from '$server/auth/authorization';
 
-export const load = (async () => {
+export const load = (async (event) => {
+	requireAdmin(event);
 	const form = await superValidate(valibot(UserInsertSchema), { defaults: userDefaults });
 	return {
 		form
@@ -21,8 +23,9 @@ export const load = (async () => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-	default: async ({ request, cookies }) => {
-		const form = await superValidate(request, valibot(UserInsertSchemaBackend));
+	default: async (event) => {
+		requireAdmin(event);
+		const form = await superValidate(event.request, valibot(UserInsertSchemaBackend));
 		if (!form.valid) {
 			return fail(422, { form });
 		}
@@ -39,6 +42,6 @@ export const actions = {
 			level: 'trace',
 			message: message.message
 		});
-		return redirectWithMessage(303, route('/users'), cookies, message);
+		return redirectWithMessage(303, route('/users'), event.cookies, message);
 	}
 } satisfies Actions;
