@@ -174,8 +174,3 @@ By adding a simple vanilla JS script to app.html (check example), we can listen 
 
 ### Error handling after hydration
 After hydration, listen to errors, log them, and in case of connection errors, show a toast to the user prompting a reload (see example hooks.client.ts). Beware that prompting the user to reload is only a good solution if the page is set up in a way where a lot of state won't be lost on reload.
-
-
----
-# Now:
-- (PARTIALLY IMPLEMENTED) Easily using cookies to store persistent state. To test, do one that changes.
